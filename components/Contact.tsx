@@ -66,7 +66,7 @@ export default function Contact() {
             <div className="space-y-4">
               {[
                 { icon: "💬", title: "Chat on WhatsApp", sub: "Fastest way to reach us", href: "https://wa.me/918438055569" },
-                { icon: "📧", title: "Email us", sub: "sujai.tce@gmail.com", href: "mailto:sujai.tce@gmail.com" },
+                { icon: "📧", title: "Email us", sub: "support.cliniqcura@gmail.com", href: "mailto:support.cliniqcura@gmail.com" },
                 { icon: "📍", title: "Based in", sub: "Chennai, Tamil Nadu, India", href: null },
               ].map((item) => (
                 <div key={item.title} className="flex items-center gap-4">

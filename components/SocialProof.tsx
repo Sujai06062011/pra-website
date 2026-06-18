@@ -14,7 +14,7 @@ const STATS: Array<{
   label: string;
   sublabel?: string;
 }> = [
-  { display: "30 sec",   label: "average booking time",      sublabel: "patient to confirmed" },
+  { display: "30sec",    label: "average booking time",      sublabel: "patient to confirmed" },
   { value: 4.7,          suffix: "/5", label: "satisfaction score",   sublabel: "across all clinics" },
   { value: 95,           suffix: "%",  label: "patient retention",    sublabel: "within 30 days" },
   { value: 98,           suffix: "%",  label: "booking completion",   sublabel: "no drop-offs" },

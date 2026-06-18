@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function LiveDemo() {
   return (
-    <section className="py-24" style={{ background: "linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%)" }}>
+    <section className="py-24" style={{ background: "var(--mist)" }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -13,12 +13,12 @@ export default function LiveDemo() {
           transition={{ duration: 0.5 }}
         >
           <h2
-            className="text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+            className="text-5xl font-bold mb-4"
+            style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: "var(--navy)" }}
           >
             Try it on your phone. Right now.
           </h2>
-          <p className="text-lg mb-10" style={{ color: "var(--teal-light)" }}>
+          <p className="text-lg mb-10" style={{ color: "var(--slate)" }}>
             Scan the QR code or tap the button below.
             <br />
             No signup. No download. Just WhatsApp.
@@ -61,7 +61,7 @@ export default function LiveDemo() {
             Open in WhatsApp →
           </a>
 
-          <p className="mt-4 text-sm" style={{ color: "var(--teal-light)", opacity: 0.8 }}>
+          <p className="mt-4 text-sm" style={{ color: "var(--slate)", opacity: 0.8 }}>
             Works on any WhatsApp. Your conversation is private.
           </p>
 
@@ -71,15 +71,15 @@ export default function LiveDemo() {
               <div key={step} className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
                   <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm"
-                    style={{ background: "rgba(255,255,255,0.2)", color: "white" }}
+                    className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm text-white"
+                    style={{ background: "var(--teal)" }}
                   >
                     {i + 1}
                   </div>
-                  <span className="text-sm text-white">{step}</span>
+                  <span className="text-sm" style={{ color: "var(--navy)" }}>{step}</span>
                 </div>
                 {i < 2 && (
-                  <span style={{ color: "rgba(255,255,255,0.4)" }}>→</span>
+                  <span style={{ color: "var(--slate)", opacity: 0.4 }}>→</span>
                 )}
               </div>
             ))}

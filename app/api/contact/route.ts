@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     const { error } = await resend.emails.send({
       from: "CliniqCura <onboarding@resend.dev>",
-      to: "sujai.tce@gmail.com",
+      to: "support.cliniqcura@gmail.com",
       replyTo: email,
       subject,
       html: `
