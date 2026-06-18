@@ -110,7 +110,7 @@ function BookingMockup() {
           buttons: ["⏰ 10:15 AM", "⏰ 10:30 AM", "⏰ 10:45 AM", "See more →"],
         },
         {
-          text: "Confirm? Aadhira · 10:15 AM",
+          text: "Confirm? Meera Nair · 10:15 AM",
           buttons: ["✅ Confirm", "❌ Cancel"],
         },
       ].map((m, i) => (
@@ -221,8 +221,8 @@ function ConsultationMockup() {
         <div className="px-3 py-2.5 space-y-1 text-sm">
           <p className="font-medium text-gray-800">Online Consultation Confirmed! 🎥✅</p>
           <div className="text-xs text-gray-600 space-y-0.5">
-            <p>Patient: Praveen</p>
-            <p>Patient Code: <span style={{ color: "var(--teal)" }}>PRA-9959-1983</span></p>
+            <p>Patient: Rohan Patel</p>
+            <p>Patient Code: <span style={{ color: "var(--teal)" }}>ROH-4259-1984</span></p>
             <p>Date: 18 June 2026</p>
             <p>Time: 8:00 PM &nbsp;·&nbsp; Token: O2</p>
           </div>
@@ -236,8 +236,8 @@ function ConsultationMockup() {
           <p className="text-white text-xs font-semibold">📹 Online Appointments — Today</p>
         </div>
         {[
-          { name: "Praveen", time: "8:00 PM", status: "Online · Scheduled" },
-          { name: "Dhanvanth", time: "8:30 PM", status: "Online · Scheduled" },
+          { name: "Rohan Patel", time: "8:00 PM", status: "Online · Scheduled" },
+          { name: "Ananya Reddy", time: "8:30 PM", status: "Online · Scheduled" },
         ].map((a) => (
           <div key={a.name} className="px-3 py-2.5 border-b border-white/5 last:border-0">
             <div className="flex items-center justify-between gap-2">
@@ -273,9 +273,9 @@ function FollowupMockup() {
         style={{ background: "white", border: "1px solid var(--border)" }}
       >
         <div className="px-3 py-2 text-sm text-gray-700">
-          How is Aadhira feeling today?
+          How is Aarav feeling today?
           <br />
-          <span className="text-xs text-gray-400">(Day after her 5-day course ended)</span>
+          <span className="text-xs text-gray-400">(Day after his 5-day course ended)</span>
         </div>
         <div className="border-t border-gray-100">
           {["😊 Doing well", "🤒 Still recovering", "📅 Needs appointment"].map((b) => (
@@ -384,9 +384,9 @@ function AnalyticsMockup() {
 
 function QueriesMockup() {
   const queries = [
-    { name: "Dhanvanth", id: "DHA-9959-2813", q: "My son is still passing loose stools on day 2. Should I bring him in?", unanswered: true },
-    { name: "Praveen Kumar M", id: "PRA-9982-1981", q: "Is it safe to eat outside food during fever?", unanswered: true },
-    { name: "Selvarani", id: "SEL-9979-1965", q: "Can I drink fruit juice during this time?", answered: "Yes, please take without sugar and ice 🍹", unanswered: false },
+    { name: "Aarav Sharma", id: "AAR-8812-2018", q: "My son is still passing loose stools on day 2. Should I bring him in?", unanswered: true },
+    { name: "Rohan Patel",  id: "ROH-4259-1984", q: "Is it safe to eat outside food during fever?", unanswered: true },
+    { name: "Meera Nair",   id: "MEE-3342-1992", q: "Can I drink fruit juice during this time?", answered: "Yes, please take without sugar and ice 🍹", unanswered: false },
   ];
   return (
     <div className="space-y-3">

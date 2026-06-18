@@ -16,7 +16,7 @@ const WA_STEPS: WaStep[] = [
   { delay: 600,  id: 1, type: "patient",      text: "Ask Doctor a Question",               time: "8:55 AM" },
   { delay: 1600, id: 2, type: "typing" },
   { delay: 2400, id: 3, type: "bot",
-    text: "Your question is for which patient?\n\n1. Selvarani (SEL-9979-1965)\n2. Sujaikumar (SUJ-9959-1983)\n3. Sivagami (SIV-9959-1997)\n\nReply with a number.",
+    text: "Your question is for which patient?\n\n1. Meera Nair (MEE-3342-1992)\n2. Rohan Patel (ROH-4259-1984)\n3. Ananya Reddy (ANA-2779-1999)\n\nReply with a number.",
     time: "8:55 AM" },
   { delay: 4000, id: 4, type: "patient",      text: "1",                                   time: "8:55 AM" },
   { delay: 4800, id: 5, type: "typing" },
@@ -233,7 +233,7 @@ function DashPanel({ phase }: { phase: DashStep["phase"] }) {
 
         {/* Query card */}
         <div className="px-3 pb-3 space-y-2">
-          {/* Selvarani card — the one from patient */}
+          {/* Meera Nair card — the one from patient */}
           <AnimatePresence>
             {(phase === "query-appears" || phase === "typing" || phase === "sent") && (
               <motion.div
@@ -247,8 +247,8 @@ function DashPanel({ phase }: { phase: DashStep["phase"] }) {
                     S
                   </div>
                   <div>
-                    <p className="font-semibold text-xs" style={{ color: "var(--navy)" }}>Selvarani</p>
-                    <p className="text-[9px] text-gray-400">SEL-9979-1965 · just now</p>
+                    <p className="font-semibold text-xs" style={{ color: "var(--navy)" }}>Meera Nair</p>
+                    <p className="text-[9px] text-gray-400">MEE-3342-1992 · just now</p>
                   </div>
                   {phase === "sent" && (
                     <span className="ml-auto text-[9px] font-semibold px-1.5 py-0.5 rounded-full text-white" style={{ background: "var(--teal)" }}>
@@ -289,8 +289,8 @@ function DashPanel({ phase }: { phase: DashStep["phase"] }) {
 
           {/* Existing queries (always shown) */}
           {[
-            { name: "Dhanvanth", id: "DHA-9959-2813", q: "My son is still passing loose stools on day 2. Should I bring him in?" },
-            { name: "Praveen Kumar", id: "PRA-9982-1981", q: "Is it safe to eat outside food during fever?" },
+            { name: "Aarav Sharma", id: "AAR-8812-2018", q: "My son is still passing loose stools on day 2. Should I bring him in?" },
+            { name: "Rohan Patel",  id: "ROH-4259-1984", q: "Is it safe to eat outside food during fever?" },
           ].map((q) => (
             <div key={q.id} className="rounded-xl p-3 bg-white" style={{ border: "1px solid var(--border)" }}>
               <div className="flex items-center gap-2 mb-1.5">

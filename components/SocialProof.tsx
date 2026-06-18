@@ -19,6 +19,7 @@ const STATS: Array<{
   { value: 95,           suffix: "%",  label: "patient retention",    sublabel: "within 30 days" },
   { value: 98,           suffix: "%",  label: "booking completion",   sublabel: "no drop-offs" },
   { prefix: "3,200",     display: "3,200+", label: "appointments booked", sublabel: "and counting" },
+  { value: 25,           suffix: "+",       label: "clinics on-boarded",  sublabel: "across India" },
 ];
 
 function CountUp({ target, suffix, prefix }: { target: number; suffix?: string; prefix?: string }) {
@@ -111,7 +112,7 @@ export default function SocialProof() {
           className="rounded-2xl py-6 px-4"
           style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
         >
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-6 text-center">
             {STATS.map((s, i) => (
               <div key={i} className="relative">
                 <Stat stat={s} />

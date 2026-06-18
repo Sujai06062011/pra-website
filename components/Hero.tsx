@@ -54,11 +54,11 @@ const BOOKING: SeqStep[] = [
       listBtn: "≡ Select patient",
       listBtnLabel: "Select patient",
       time: "9:19 AM" } },
-  // 6. Open Select Patient modal — tap row 1 = Sujaikumar
+  // 6. Open Select Patient modal — tap row 1 = Rohan Patel
   { delay: 9200, openModal: "selectPatient", tapRowIdx: 1 },
   // 7. Close after glow
   { delay: 11000, closeModal: true },
-  { delay: 11500, msg: { id: 6,  type: "patient",       text: "Sujaikumar\n43 yrs · SUJ-9959-1983",              time: "9:19 AM" } },
+  { delay: 11500, msg: { id: 6,  type: "patient",       text: "Rohan Patel\n42 yrs · ROH-4259-1984",              time: "9:19 AM" } },
   // 8. In Clinic / Online Consultation
   { delay: 12400, msg: { id: 7,  type: "reply-buttons",
       text: "Would you like to book:",
@@ -68,7 +68,7 @@ const BOOKING: SeqStep[] = [
   { delay: 13700, msg: { id: 8,  type: "patient",       text: "In Clinic",                                       time: "9:19 AM" } },
   // 9. Date selection
   { delay: 14500, msg: { id: 9,  type: "reply-buttons",
-      header: "🗓️ Booking for Sujaikumar",
+      header: "🗓️ Booking for Rohan Patel",
       text: "Which date?",
       subtext: "Tap Other Date to choose a different day",
       buttons: ["Today 18 Jun", "Tomorrow 19 Jun", "Other Date"],
@@ -84,7 +84,7 @@ const BOOKING: SeqStep[] = [
   { delay: 17900, msg: { id: 12, type: "patient",       text: "🌆 Evening",                                      time: "9:19 AM" } },
   // 11. Choose a slot list message
   { delay: 18700, msg: { id: 13, type: "list-msg",
-      header: "Evening slots for Sujaikumar",
+      header: "Evening slots for Rohan Patel",
       text: "Thu 18 Jun\nTap a slot to select it",
       listBtn: "≡ Choose a slot",
       listBtnLabel: "Choose a slot",
@@ -98,13 +98,13 @@ const BOOKING: SeqStep[] = [
   { delay: 23400, msg: { id: 15, type: "reply-buttons",
       text: "Confirm this appointment?",
       subtext: "Tap Confirm to book",
-      confirmDetails: { name: "Sujaikumar", date: "Thu 18 Jun", time: "6:00 PM" },
+      confirmDetails: { name: "Rohan Patel", date: "Thu 18 Jun", time: "6:00 PM" },
       buttons: ["✅ Confirm", "❌ Cancel"],
       time: "9:20 AM" } },
   { delay: 24800, msg: { id: 16, type: "patient",       text: "✅ Confirm",                                      time: "9:20 AM" } },
   // 15. Final confirmation (plain text)
   { delay: 25600, msg: { id: 17, type: "confirmation",
-      text: "Appointment Confirmed! ✅\n\nPatient: Sujaikumar\nPatient Code: SUJ-9959-1983\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: Dr. Kumar Child Care Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
+      text: "Appointment Confirmed! ✅\n\nPatient: Rohan Patel\nPatient Code: ROH-4259-1984\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: Dr. Kumar Child Care Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
       time: "9:20 AM" } },
 ];
 
@@ -118,11 +118,11 @@ const VIEW_OPTIONS = [
 ];
 
 const PATIENTS = [
-  { title: "Subramaniam", info: "71 yrs · SUB-3323-1955" },
-  { title: "Sujaikumar",  info: "43 yrs · SUJ-9959-1983" },
-  { title: "Selvarani",   info: "61 yrs · SEL-9979-1965" },
-  { title: "Dhanvanth",   info: "13 yrs · DHA-9959-2013" },
-  { title: "Sivagami",    info: "29 yrs · SIV-9959-1997" },
+  { title: "Aarav Sharma",  info: "8 yrs · AAR-8812-2018"  },
+  { title: "Rohan Patel",   info: "42 yrs · ROH-4259-1984" },
+  { title: "Meera Nair",    info: "34 yrs · MEE-3342-1992" },
+  { title: "Ananya Reddy",  info: "27 yrs · ANA-2779-1999" },
+  { title: "Rajkumar",      info: "68 yrs · RAJ-6832-1958" },
 ];
 
 const SLOTS = [

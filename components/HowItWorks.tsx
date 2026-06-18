@@ -105,7 +105,7 @@ const STEPS = [
       <>
         <WaBot text="Which session?" buttons={["🌅 Morning", "🌆 Evening"]} />
         <WaBot text={"Morning slots — 17 Jun:"} buttons={["⏰ 10:15 AM", "⏰ 10:30 AM", "⏰ 10:45 AM"]} />
-        <WaBot text="Confirm? Aadhira · 10:15 AM" buttons={["✅ Confirm", "❌ Cancel"]} />
+        <WaBot text="Confirm? Meera Nair · 10:15 AM" buttons={["✅ Confirm", "❌ Cancel"]} />
       </>
     ),
     flip: true,
@@ -124,7 +124,7 @@ const STEPS = [
           ✅ Appointment Confirmed!
         </div>
         <div className="px-2 py-1.5 space-y-0.5 text-gray-700">
-          <p>👤 Aadhira Kumar</p>
+          <p>👤 Meera Nair</p>
           <p>📅 17 June 2026 · 10:15 AM</p>
           <p>🎫 Token: <strong>M3</strong></p>
           <p>🏥 Dr. Kumar Child Care Clinic</p>

@@ -3,23 +3,23 @@
 import { motion } from "framer-motion";
 
 const APPTS = [
-  { token: "M1", name: "Aadhira Kumar",  time: "10:00 AM", type: "In Clinic", status: "seen"    },
-  { token: "M2", name: "Rajini",          time: "10:15 AM", type: "In Clinic", status: "seen"    },
-  { token: "M3", name: "Subramaniam",     time: "10:30 AM", type: "In Clinic", status: "seen"    },
-  { token: "M4", name: "Poornima",        time: "10:45 AM", type: "In Clinic", status: "active"  },
-  { token: "M5", name: "Dhanvanth",       time: "11:00 AM", type: "In Clinic", status: "waiting" },
-  { token: "M6", name: "Sivagami",        time: "11:15 AM", type: "In Clinic", status: "waiting" },
-  { token: "O1", name: "Praveen Kumar",   time: "8:00 PM",  type: "Online",    status: "online"  },
-  { token: "O2", name: "Arunkumar",       time: "8:30 PM",  type: "Online",    status: "online"  },
+  { token: "M1", name: "Aarav Sharma",  time: "10:00 AM", type: "In Clinic", status: "seen"    },
+  { token: "M2", name: "Meera Nair",    time: "10:15 AM", type: "In Clinic", status: "seen"    },
+  { token: "M3", name: "Rajkumar",      time: "10:30 AM", type: "In Clinic", status: "seen"    },
+  { token: "M4", name: "Ananya Reddy",  time: "10:45 AM", type: "In Clinic", status: "active"  },
+  { token: "M5", name: "Rohan Patel",   time: "11:00 AM", type: "In Clinic", status: "waiting" },
+  { token: "M6", name: "Aarav Sharma",  time: "11:15 AM", type: "In Clinic", status: "waiting" },
+  { token: "O1", name: "Rohan Patel",   time: "8:00 PM",  type: "Online",    status: "online"  },
+  { token: "O2", name: "Meera Nair",    time: "8:30 PM",  type: "Online",    status: "online"  },
 ];
 
 const NEEDS_ATTENTION = [
-  { name: "Jayanthi",      sub: "Follow-up pending",    action: "Call",  kind: "call"  },
-  { name: "Sivagami",      sub: "Follow-up pending",    action: "Call",  kind: "call"  },
-  { name: "Sujaikumar",    sub: "Follow-up pending",    action: "Call",  kind: "call"  },
-  { name: "Dhanvanth",     sub: "Query awaiting reply", action: "Reply", kind: "reply" },
-  { name: "Praveen Kumar M", sub: "Query awaiting reply", action: "Reply", kind: "reply" },
-  { name: "Selvarani",     sub: "Query awaiting reply", action: "Reply", kind: "reply" },
+  { name: "Meera Nair",   sub: "Follow-up pending",    action: "Call",  kind: "call"  },
+  { name: "Ananya Reddy", sub: "Follow-up pending",    action: "Call",  kind: "call"  },
+  { name: "Rohan Patel",  sub: "Follow-up pending",    action: "Call",  kind: "call"  },
+  { name: "Aarav Sharma", sub: "Query awaiting reply", action: "Reply", kind: "reply" },
+  { name: "Rajkumar",     sub: "Query awaiting reply", action: "Reply", kind: "reply" },
+  { name: "Ananya Reddy", sub: "Query awaiting reply", action: "Reply", kind: "reply" },
 ];
 
 function StatusBadge({ status }: { status: string }) {

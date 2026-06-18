@@ -7,7 +7,7 @@ const PHONES = [
     lang: "Tamil",
     flag: "🇮🇳",
     messages: [
-      { text: "வணக்கம் Aadhira! 🙏", type: "bot" },
+      { text: "வணக்கம் Aarav! 🙏", type: "bot" },
       { text: "உங்கள் appointment உறுதி!", type: "bot" },
       { text: "📅 17 Jun 2026 at 10:15 AM\nToken: M3", type: "confirm" },
       { text: "✅ Download தேவையில்லை", type: "bot" },
@@ -17,7 +17,7 @@ const PHONES = [
     lang: "English",
     flag: "🇬🇧",
     messages: [
-      { text: "Hello Poornima! 🙏", type: "bot" },
+      { text: "Hello Ananya! 🙏", type: "bot" },
       { text: "Your appointment is confirmed.", type: "bot" },
       { text: "📅 17 Jun 2026 at 10:15 AM\nToken: M3", type: "confirm" },
       { text: "See you soon!", type: "bot" },
@@ -27,7 +27,7 @@ const PHONES = [
     lang: "Hindi",
     flag: "🇮🇳",
     messages: [
-      { text: "नमस्ते Rajini! 🙏", type: "bot" },
+      { text: "नमस्ते Rohan! 🙏", type: "bot" },
       { text: "आपकी appointment confirm हो गई।", type: "bot" },
       { text: "📅 17 Jun 2026 at 10:15 AM\nToken: M3", type: "confirm" },
       { text: "धन्यवाद!", type: "bot" },

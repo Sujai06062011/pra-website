@@ -1,11 +1,11 @@
 export const QUEUE_DATA = [
-  { token: "M1", name: "Aadhira Kumar", time: "10:00 AM", status: "completed" },
-  { token: "M2", name: "Rajini", time: "10:15 AM", status: "completed" },
-  { token: "M3", name: "Subramaniam", time: "10:30 AM", status: "active" },
-  { token: "M4", name: "Poornima", time: "10:45 AM", status: "waiting" },
-  { token: "M5", name: "Dhanvanth", time: "11:00 AM", status: "waiting" },
-  { token: "E1", name: "Sujaikumar", time: "5:00 PM", status: "evening" },
-  { token: "E2", name: "Hariharan", time: "5:15 PM", status: "evening" },
+  { token: "M1", name: "Aarav Sharma",  time: "10:00 AM", status: "completed" },
+  { token: "M2", name: "Meera Nair",    time: "10:15 AM", status: "completed" },
+  { token: "M3", name: "Rajkumar",      time: "10:30 AM", status: "active" },
+  { token: "M4", name: "Ananya Reddy",  time: "10:45 AM", status: "waiting" },
+  { token: "M5", name: "Rohan Patel",   time: "11:00 AM", status: "waiting" },
+  { token: "E1", name: "Rohan Patel",   time: "5:00 PM",  status: "evening" },
+  { token: "E2", name: "Meera Nair",    time: "5:15 PM",  status: "evening" },
 ];
 
 export const ANALYTICS_DATA = {
@@ -78,14 +78,14 @@ export const PHARMACY_ALERTS = {
 };
 
 export const FOLLOWUPS = [
-  { name: "Jayanthi", status: "pending", type: "call" },
-  { name: "Sivagami", status: "pending", type: "call" },
-  { name: "Sujaikumar", status: "pending", type: "call" },
-  { name: "Poornima", status: "whatsapp", type: "reply" },
-  { name: "Arunkumar", status: "pending", type: "call" },
+  { name: "Meera Nair",   status: "pending",  type: "call"  },
+  { name: "Ananya Reddy", status: "pending",  type: "call"  },
+  { name: "Rohan Patel",  status: "pending",  type: "call"  },
+  { name: "Aarav Sharma", status: "whatsapp", type: "reply" },
+  { name: "Rajkumar",     status: "pending",  type: "call"  },
 ];
 
 export const CONSULTATIONS = [
-  { patient: "Poornima", time: "8:00 PM", status: "scheduled", link: "8x8.vc/..." },
-  { patient: "Dhanvanth", time: "8:30 PM", status: "scheduled", link: "8x8.vc/..." },
+  { patient: "Ananya Reddy", time: "8:00 PM", status: "scheduled", link: "8x8.vc/..." },
+  { patient: "Rohan Patel",  time: "8:30 PM", status: "scheduled", link: "8x8.vc/..." },
 ];
