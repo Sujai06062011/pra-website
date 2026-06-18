@@ -35,7 +35,7 @@ export default function Contact() {
   const focusStyle: React.CSSProperties = { border: "1.5px solid #0D9488" };
 
   return (
-    <section id="contact" className="py-20" style={{ background: "#0B1120" }}>
+    <section id="contact" className="py-20" style={{ background: "linear-gradient(135deg, #0D2A2A 0%, #0F2D3A 50%, #0B1A2E 100%)", borderBottom: "2px solid rgba(13,148,136,0.3)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
