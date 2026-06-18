@@ -179,10 +179,10 @@ function DashboardUI() {
           {/* Stat cards */}
           <div className="grid grid-cols-4 gap-2 mt-2">
             {[
-              { title: "TODAY'S APPOINTMENTS", val: "0", sub: "0 Completed · 0 Remaining", icon: "📅" },
-              { title: "LIVE QUEUE", val: "—", sub: "0 tokens today", icon: "#" },
-              { title: "TOTAL PATIENTS", val: "19", sub: "15 follow-ups pending", icon: "📞" },
-              { title: "PHARMACY ALERTS", val: "1", sub: "1 expiring soon", icon: "💊" },
+              { title: "TODAY'S APPOINTMENTS", val: "8", sub: "3 Completed · 5 Remaining", icon: "📅" },
+              { title: "LIVE QUEUE", val: "M4", sub: "8 tokens today · 3 done", icon: "#" },
+              { title: "TOTAL PATIENTS", val: "187", sub: "15 follow-ups pending", icon: "📞" },
+              { title: "PHARMACY ALERTS", val: "3", sub: "1 expired · 1 low stock", icon: "💊" },
             ].map((s) => (
               <div
                 key={s.title}
@@ -206,9 +206,9 @@ function DashboardUI() {
           {/* Second row */}
           <div className="grid grid-cols-3 gap-2 mt-2">
             {[
-              { title: "POST-VISIT FOLLOW-UPS", val: "15 pending", sub: "Pending action", icon: "📞" },
-              { title: "LAB REPORTS", val: "— pending", sub: "Coming soon", icon: "🔬" },
-              { title: "PATIENT QUERIES", val: "3 unanswered", sub: "Check queries tab", icon: "💬" },
+              { title: "POST-VISIT FOLLOW-UPS", val: "15 pending", sub: "Awaiting response", icon: "📞" },
+              { title: "LAB REPORTS", val: "4 pending", sub: "2 reviewed · 2 new", icon: "🔬" },
+              { title: "PATIENT QUERIES", val: "3 unanswered", sub: "13 total this month", icon: "💬" },
             ].map((s) => (
               <div
                 key={s.title}
@@ -227,36 +227,51 @@ function DashboardUI() {
           </div>
 
           {/* Appointments table */}
-          <div
-            className="mt-2 rounded-xl overflow-hidden"
-            style={{ background: "white", border: "1px solid var(--border)" }}
-          >
-            <div className="px-3 py-2 border-b" style={{ borderColor: "var(--border)" }}>
-              <p className="font-semibold text-[11px]" style={{ color: "var(--navy)" }}>
-                Today Appointments — 0 active
-              </p>
+          <div className="mt-2 rounded-xl overflow-hidden" style={{ background: "white", border: "1px solid var(--border)" }}>
+            <div className="px-3 py-2 border-b flex items-center justify-between" style={{ borderColor: "var(--border)" }}>
+              <p className="font-semibold text-[11px]" style={{ color: "var(--navy)" }}>Today Appointments — 8 active</p>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold text-white" style={{ background: "var(--wa-green)" }}>● Live</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-[10px]">
                 <thead>
                   <tr style={{ background: "var(--mist)" }}>
-                    {["TOKEN", "PATIENT", "DATE", "TIME", "STATUS"].map((h) => (
-                      <th
-                        key={h}
-                        className="px-3 py-2 text-left font-semibold"
-                        style={{ color: "var(--slate)" }}
-                      >
-                        {h}
-                      </th>
+                    {["TOKEN", "PATIENT", "TIME", "TYPE", "STATUS"].map((h) => (
+                      <th key={h} className="px-3 py-2 text-left font-semibold" style={{ color: "var(--slate)" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td colSpan={5} className="px-3 py-4 text-center text-gray-400">
-                      No active patients right now
-                    </td>
-                  </tr>
+                  {[
+                    { token: "M1", name: "Aadhira Kumar",  time: "10:00 AM", type: "In Clinic", status: "seen",       statusLabel: "✅ Seen" },
+                    { token: "M2", name: "Rajini",          time: "10:15 AM", type: "In Clinic", status: "seen",       statusLabel: "✅ Seen" },
+                    { token: "M3", name: "Subramaniam",     time: "10:30 AM", type: "In Clinic", status: "seen",       statusLabel: "✅ Seen" },
+                    { token: "M4", name: "Poornima",        time: "10:45 AM", type: "In Clinic", status: "active",     statusLabel: "In Progress" },
+                    { token: "M5", name: "Dhanvanth",       time: "11:00 AM", type: "In Clinic", status: "waiting",    statusLabel: "Waiting" },
+                    { token: "M6", name: "Sivagami",        time: "11:15 AM", type: "In Clinic", status: "waiting",    statusLabel: "Waiting" },
+                    { token: "O1", name: "Praveen Kumar",   time: "8:00 PM",  type: "Online",    status: "online",     statusLabel: "Scheduled" },
+                    { token: "O2", name: "Arunkumar",       time: "8:30 PM",  type: "Online",    status: "online",     statusLabel: "Scheduled" },
+                  ].map((row) => (
+                    <tr key={row.token} className="border-b last:border-0" style={{ borderColor: "var(--border)", background: row.status === "active" ? "rgba(29,158,117,0.06)" : "white" }}>
+                      <td className="px-3 py-2 font-bold" style={{ color: row.status === "seen" ? "#9CA3AF" : row.status === "active" ? "var(--teal)" : "var(--navy)" }}>{row.token}</td>
+                      <td className="px-3 py-2" style={{ color: row.status === "seen" ? "#9CA3AF" : "var(--navy)" }}>{row.name}</td>
+                      <td className="px-3 py-2 text-gray-400">{row.time}</td>
+                      <td className="px-3 py-2">
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold"
+                          style={row.type === "Online"
+                            ? { background: "#EFF6FF", color: "#3B82F6" }
+                            : { background: "var(--teal-light)", color: "var(--teal-dark)" }}>
+                          {row.type}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2 text-right">
+                        {row.status === "seen"    && <span className="text-[9px] text-gray-400">{row.statusLabel}</span>}
+                        {row.status === "active"  && <span className="px-2 py-0.5 rounded-full text-[9px] font-medium" style={{ background: "var(--teal-light)", color: "var(--teal)" }}>{row.statusLabel}</span>}
+                        {row.status === "waiting" && <span className="text-[9px]" style={{ color: "var(--slate)" }}>{row.statusLabel}</span>}
+                        {row.status === "online"  && <span className="px-2 py-0.5 rounded-full text-[9px] font-medium" style={{ background: "#EFF6FF", color: "#3B82F6" }}>{row.statusLabel}</span>}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

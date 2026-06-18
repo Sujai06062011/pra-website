@@ -4,109 +4,95 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { QUEUE_DATA, ANALYTICS_DATA, PHARMACY_ALERTS } from "../lib/constants";
 
-const TABS = ["Queue", "Booking", "Pharmacy", "Consultation", "Followup", "Analytics", "Queries"];
+const TABS = ["Queue", "Booking", "Pharmacy", "Online Consultation", "Followup", "Analytics", "Queries"];
 
 function QueueMockup() {
+  const morningQueue = QUEUE_DATA.filter((q) => q.status !== "evening");
+  const eveningQueue = QUEUE_DATA.filter((q) => q.status === "evening");
+  // Start at M3 (index 2) and cycle through morning tokens only
   const [activeIdx, setActiveIdx] = useState(2);
 
   useEffect(() => {
     const t = setInterval(() => {
-      setActiveIdx((i) => (i + 1) % QUEUE_DATA.filter((q) => q.status !== "evening").length);
-    }, 3000);
+      setActiveIdx((i) => (i + 1) % morningQueue.length);
+    }, 2500);
     return () => clearInterval(t);
-  }, []);
+  }, [morningQueue.length]);
 
-  const statusColor: Record<string, string> = {
-    completed: "var(--slate)",
-    active: "var(--teal)",
-    waiting: "var(--navy)",
-    evening: "#9CA3AF",
-  };
+  // Derive status dynamically from activeIdx
+  function getStatus(i: number, isEvening: boolean) {
+    if (isEvening) return "evening";
+    if (i < activeIdx) return "seen";
+    if (i === activeIdx) return "active";
+    return "waiting";
+  }
 
   return (
-    <div
-      className="rounded-2xl overflow-hidden"
-      style={{ background: "white", border: "1px solid var(--border)" }}
-    >
-      <div
-        className="px-4 py-3 flex items-center justify-between"
-        style={{ background: "var(--navy)" }}
-      >
+    <div className="rounded-2xl overflow-hidden" style={{ background: "white", border: "1px solid var(--border)" }}>
+      <div className="px-4 py-3 flex items-center justify-between" style={{ background: "var(--navy)" }}>
         <p className="text-white text-sm font-semibold">🏥 Dr. Kumar Child Care — Live Queue</p>
-        <span
-          className="text-xs px-2 py-0.5 rounded-full font-medium"
-          style={{ background: "var(--wa-green)", color: "white" }}
-        >
+        <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "var(--wa-green)", color: "white" }}>
           ● Live
         </span>
       </div>
       <div className="px-4 py-3" style={{ background: "var(--teal-light)" }}>
-        <p className="text-sm" style={{ color: "var(--slate)" }}>
-          Now Serving
-        </p>
-        <p
+        <p className="text-sm" style={{ color: "var(--slate)" }}>Now Serving</p>
+        <motion.p
+          key={morningQueue[activeIdx]?.token}
           className="text-3xl font-bold"
           style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: "var(--teal)" }}
+          initial={{ scale: 1.2, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3 }}
         >
-          {QUEUE_DATA[activeIdx]?.token || "—"}
-        </p>
+          {morningQueue[activeIdx]?.token || "—"}
+        </motion.p>
         <div className="mt-2 w-full rounded-full h-1.5" style={{ background: "var(--border)" }}>
           <div
-            className="h-1.5 rounded-full transition-all duration-1000"
-            style={{
-              width: `${((activeIdx + 1) / QUEUE_DATA.filter((q) => q.status !== "evening").length) * 100}%`,
-              background: "var(--teal)",
-            }}
+            className="h-1.5 rounded-full transition-all duration-700"
+            style={{ width: `${((activeIdx + 1) / morningQueue.length) * 100}%`, background: "var(--teal)" }}
           />
         </div>
       </div>
       <table className="w-full text-sm">
         <tbody>
-          {QUEUE_DATA.map((q, i) => (
-            <tr
-              key={q.token}
-              className={`border-b transition-all ${
-                i === activeIdx ? "queue-active" : ""
-              }`}
-              style={{
-                borderColor: "var(--border)",
-                background: i === activeIdx ? "rgba(29,158,117,0.08)" : "white",
-              }}
-            >
-              <td className="px-4 py-2.5 font-bold" style={{ color: statusColor[q.status] }}>
-                {q.token}
-              </td>
-              <td className="px-2 py-2.5" style={{ color: "var(--navy)" }}>
-                {q.name}
-              </td>
-              <td className="px-2 py-2.5 text-right">
-                {q.status === "completed" && <span className="text-gray-400">✅</span>}
-                {q.status === "active" && (
-                  <span
-                    className="px-2 py-0.5 rounded-full text-xs font-medium"
-                    style={{ background: "var(--teal-light)", color: "var(--teal)" }}
-                  >
-                    In Progress
-                  </span>
-                )}
-                {q.status === "waiting" && (
-                  <span className="text-xs" style={{ color: "var(--slate)" }}>
-                    Waiting
-                  </span>
-                )}
-                {q.status === "evening" && (
-                  <span className="text-xs text-gray-400">Evening</span>
-                )}
-              </td>
+          {morningQueue.map((q, i) => {
+            const status = getStatus(i, false);
+            return (
+              <tr
+                key={q.token}
+                className={`border-b transition-all ${status === "active" ? "queue-active" : ""}`}
+                style={{ borderColor: "var(--border)", background: status === "active" ? "rgba(29,158,117,0.08)" : "white" }}
+              >
+                <td className="px-4 py-2.5 font-bold w-12" style={{ color: status === "seen" ? "#9CA3AF" : status === "active" ? "var(--teal)" : "var(--navy)" }}>
+                  {q.token}
+                </td>
+                <td className="px-2 py-2.5" style={{ color: status === "seen" ? "#9CA3AF" : "var(--navy)" }}>
+                  {q.name}
+                </td>
+                <td className="px-2 py-2.5 text-right">
+                  {status === "seen" && <span className="text-xs text-gray-400">✅ Seen</span>}
+                  {status === "active" && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ background: "var(--teal-light)", color: "var(--teal)" }}>
+                      In Progress
+                    </span>
+                  )}
+                  {status === "waiting" && <span className="text-xs" style={{ color: "var(--slate)" }}>Waiting</span>}
+                </td>
+              </tr>
+            );
+          })}
+          {eveningQueue.map((q) => (
+            <tr key={q.token} className="border-b" style={{ borderColor: "var(--border)", background: "white" }}>
+              <td className="px-4 py-2.5 font-bold w-12 text-gray-300">{q.token}</td>
+              <td className="px-2 py-2.5 text-gray-300">{q.name}</td>
+              <td className="px-2 py-2.5 text-right text-xs text-gray-300">Evening</td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className="px-4 py-3">
-        <button
-          className="w-full py-2 rounded-xl text-white text-sm font-semibold"
-          style={{ background: "var(--teal)" }}
-        >
+        <button className="w-full py-2 rounded-xl text-white text-sm font-semibold" style={{ background: "var(--teal)" }}>
           Next →
         </button>
       </div>
@@ -215,38 +201,65 @@ function PharmacyMockup() {
 function ConsultationMockup() {
   return (
     <div className="space-y-3">
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{ background: "white", border: "1px solid var(--border)" }}
-      >
-        <div className="px-3 py-2" style={{ background: "#128C7E" }}>
-          <p className="text-white text-sm font-medium">🎥 Online Consultation Confirmed!</p>
-        </div>
-        <div className="px-3 py-2 text-sm space-y-1 text-gray-700">
-          <p>📅 17 Jun 2026 at 8:00 PM</p>
-          <p className="text-xs" style={{ color: "var(--teal)" }}>
-            Click to join: 8x8.vc/dr-kumar
+      {/* WhatsApp message — matches real screenshot */}
+      <div className="rounded-2xl overflow-hidden" style={{ background: "white", border: "1px solid var(--border)" }}>
+        <div className="px-3 py-2.5 space-y-1.5 text-sm text-gray-700">
+          <p className="font-medium">🎥 This is an Online Consultation!</p>
+          <p className="text-xs text-gray-500">📅 18 Jun 2026 &nbsp;|&nbsp; ⏰ 08:00 PM</p>
+          <p className="text-xs text-gray-600">Click the link below to join:</p>
+          <p className="text-xs break-all" style={{ color: "var(--teal)" }}>
+            https://8x8.vc/vpaas-magic-cookie-f389c6e3.../drkumar-20260618
           </p>
-          <p className="text-xs text-gray-500">✅ No download needed</p>
+          <div className="pt-1 space-y-0.5 text-xs text-gray-600">
+            <p>✅ No download needed</p>
+            <p>✅ No login required</p>
+            <p>✅ Just click the link at appointment time!</p>
+          </div>
         </div>
       </div>
-      <div
-        className="rounded-2xl p-3"
-        style={{ background: "var(--navy)", border: "1px solid #2a2a4a" }}
-      >
-        <p className="text-white text-xs font-semibold mb-2">Dashboard — Online Appointments</p>
-        <div className="flex items-center justify-between p-2 rounded-xl" style={{ background: "rgba(255,255,255,0.1)" }}>
-          <div>
-            <p className="text-white text-sm font-medium">Aadhira Kumar</p>
-            <p className="text-gray-400 text-xs">8:00 PM · Online</p>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "white", border: "1px solid var(--border)" }}>
+        <div className="px-3 py-2.5 space-y-1 text-sm">
+          <p className="font-medium text-gray-800">Online Consultation Confirmed! 🎥✅</p>
+          <div className="text-xs text-gray-600 space-y-0.5">
+            <p>Patient: Praveen</p>
+            <p>Patient Code: <span style={{ color: "var(--teal)" }}>PRA-9959-1983</span></p>
+            <p>Date: 18 June 2026</p>
+            <p>Time: 8:00 PM &nbsp;·&nbsp; Token: O2</p>
           </div>
-          <button
-            className="px-3 py-1.5 rounded-lg text-white text-xs font-semibold"
-            style={{ background: "var(--wa-green)" }}
-          >
-            🎥 Join Now
-          </button>
+          <p className="text-xs text-gray-400 pt-1">You will receive a video join link shortly.</p>
         </div>
+      </div>
+
+      {/* Dashboard — dark, matches screenshot */}
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#1A1A2E", border: "1px solid #2a2a4a" }}>
+        <div className="px-3 py-2 border-b border-white/10">
+          <p className="text-white text-xs font-semibold">📹 Online Appointments — Today</p>
+        </div>
+        {[
+          { name: "Praveen", time: "8:00 PM", status: "Online · Scheduled" },
+          { name: "Dhanvanth", time: "8:30 PM", status: "Online · Scheduled" },
+        ].map((a) => (
+          <div key={a.name} className="px-3 py-2.5 border-b border-white/5 last:border-0">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold text-white" style={{ background: "#3B82F6" }}>Online</span>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold" style={{ background: "rgba(255,255,255,0.1)", color: "#9CA3AF" }}>Scheduled</span>
+                </div>
+                <p className="text-white text-xs font-medium">{a.name}</p>
+                <p className="text-gray-400 text-[10px]">18 Jun 2026, {a.time}</p>
+              </div>
+              <div className="flex flex-col gap-1.5 items-end">
+                <button className="px-3 py-1.5 rounded-xl text-white text-xs font-bold flex items-center gap-1" style={{ background: "#3B82F6" }}>
+                  📹 Join Now
+                </button>
+                <button className="px-3 py-1 rounded-xl text-xs font-medium flex items-center gap-1" style={{ background: "rgba(255,255,255,0.08)", color: "#9CA3AF" }}>
+                  Send Link
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -564,7 +577,7 @@ export default function Features() {
                 className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4"
                 style={{ background: "var(--teal-light)" }}
               >
-                {["🔢", "📅", "💊", "🎥", "📞", "📊", "💬"][active]}
+                {["🔢", "📅", "💊", "📹", "📞", "📊", "💬"][active]}
               </div>
               <h3
                 className="text-2xl font-bold mb-3"
