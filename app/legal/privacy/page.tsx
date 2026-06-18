@@ -79,7 +79,7 @@ export default function PrivacyPolicy() {
           "Grievance — raise a complaint with our Data Protection Officer",
         ]} />
         <p className="mt-2">
-          To exercise these rights, contact us at: <strong>privacy@praclinic.in</strong>
+          To exercise these rights, contact us at: <strong>support.cliniqcura@gmail.com</strong>
         </p>
       </Section>
 
@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
 
       <Section number="8" title="Contact">
         <p>Data Protection Officer: <strong>DPO, CliniqCura Health Tech Pvt. Ltd.</strong></p>
-        <p>Email: <strong>privacy@praclinic.in</strong></p>
+        <p>Email: <strong>support.cliniqcura@gmail.com</strong></p>
         <p>Address: Chennai, Tamil Nadu, India</p>
       </Section>
     </LegalPage>

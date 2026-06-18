@@ -90,7 +90,7 @@ export default function Terms() {
         <p>
           These terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in Chennai, Tamil Nadu.
         </p>
-        <p>For queries: <strong>legal@praclinic.in</strong></p>
+        <p>For queries: <strong>support.cliniqcura@gmail.com</strong></p>
       </Section>
     </LegalPage>
   );

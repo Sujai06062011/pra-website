@@ -77,8 +77,8 @@ export default function CookiePolicy() {
 
       <Section number="6" title="Contact">
         <p>For any questions about cookies or tracking:</p>
-        <p><strong>Email:</strong> privacy@praclinic.in</p>
-        <p><strong>DPO:</strong> dpo@praclinic.in</p>
+        <p><strong>Email:</strong> support.cliniqcura@gmail.com</p>
+        <p><strong>DPO:</strong> support.cliniqcura@gmail.com</p>
       </Section>
     </LegalPage>
   );
