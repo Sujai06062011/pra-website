@@ -27,8 +27,8 @@ interface SeqStep {
   delay: number;
   msg?: Message;
   openModal?: ModalKind;
+  tapRowIdx?: number;        // set WHEN opening modal so it's correct on every replay
   closeModal?: boolean;
-  tapRowIdx?: number;        // row index that glows before close
 }
 
 const BOOKING: SeqStep[] = [
@@ -42,10 +42,10 @@ const BOOKING: SeqStep[] = [
       listBtn: "≡ View options",
       listBtnLabel: "View options",
       time: "9:19 AM" } },
-  // 3. Open View Options modal
-  { delay: 4500, openModal: "viewOptions" },
-  // 4. Glow + close → patient taps "Book Appointment"
-  { delay: 6200, closeModal: true, tapRowIdx: 0 },
+  // 3. Open View Options modal — tap row 0 = Book Appointment
+  { delay: 4500, openModal: "viewOptions", tapRowIdx: 0 },
+  // 4. Close after glow
+  { delay: 6200, closeModal: true },
   { delay: 6700, msg: { id: 4,  type: "patient",       text: "Book Appointment",                                 time: "9:19 AM" } },
   // 5. Select patient list message
   { delay: 7600, msg: { id: 5,  type: "list-msg",
@@ -54,10 +54,10 @@ const BOOKING: SeqStep[] = [
       listBtn: "≡ Select patient",
       listBtnLabel: "Select patient",
       time: "9:19 AM" } },
-  // 6. Open Select Patient modal
-  { delay: 9200, openModal: "selectPatient" },
-  // 7. Glow row 1 (Sujaikumar) → close
-  { delay: 11000, closeModal: true, tapRowIdx: 1 },
+  // 6. Open Select Patient modal — tap row 1 = Sujaikumar
+  { delay: 9200, openModal: "selectPatient", tapRowIdx: 1 },
+  // 7. Close after glow
+  { delay: 11000, closeModal: true },
   { delay: 11500, msg: { id: 6,  type: "patient",       text: "Sujaikumar\n43 yrs · SUJ-9959-1983",              time: "9:19 AM" } },
   // 8. In Clinic / Online Consultation
   { delay: 12400, msg: { id: 7,  type: "reply-buttons",
@@ -89,10 +89,10 @@ const BOOKING: SeqStep[] = [
       listBtn: "≡ Choose a slot",
       listBtnLabel: "Choose a slot",
       time: "9:19 AM" } },
-  // 12. Open Choose Slot modal
-  { delay: 20200, openModal: "chooseSlot" },
-  // 13. Glow row 2 (6:00 PM) → close
-  { delay: 22000, closeModal: true, tapRowIdx: 2 },
+  // 12. Open Choose Slot modal — tap row 2 = 6:00 PM
+  { delay: 20200, openModal: "chooseSlot", tapRowIdx: 2 },
+  // 13. Close after glow
+  { delay: 22000, closeModal: true },
   { delay: 22500, msg: { id: 14, type: "patient",       text: "6:00 PM\nEvening · Thu 18 Jun",                   time: "9:19 AM" } },
   // 14. Confirm card
   { delay: 23400, msg: { id: 15, type: "reply-buttons",
@@ -367,15 +367,17 @@ function WhatsAppPhone() {
     function run() {
       setMessages([]);
       setModal(null);
+      setTapRowIdx(0);
 
       BOOKING.forEach((step) => {
         const t = setTimeout(() => {
           if (step.openModal) {
+            // Set the tap index BEFORE the modal opens so it's correct on every cycle
+            if (step.tapRowIdx !== undefined) setTapRowIdx(step.tapRowIdx);
             setModal(step.openModal);
             return;
           }
           if (step.closeModal) {
-            if (step.tapRowIdx !== undefined) setTapRowIdx(step.tapRowIdx);
             // small delay so row glow is visible before close
             setTimeout(() => setModal(null), 700);
             return;
