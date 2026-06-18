@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { QUEUE_DATA, ANALYTICS_DATA, PHARMACY_ALERTS } from "../lib/constants";
 
-const TABS = ["Queue", "Booking", "Pharmacy", "Consultation", "Followup", "Analytics"];
+const TABS = ["Queue", "Booking", "Pharmacy", "Consultation", "Followup", "Analytics", "Queries"];
 
 function QueueMockup() {
   const [activeIdx, setActiveIdx] = useState(2);
@@ -369,6 +369,59 @@ function AnalyticsMockup() {
   );
 }
 
+function QueriesMockup() {
+  const queries = [
+    { name: "Dhanvanth", id: "DHA-9959-2813", q: "My son is still passing loose stools on day 2. Should I bring him in?", unanswered: true },
+    { name: "Praveen Kumar M", id: "PRA-9982-1981", q: "Is it safe to eat outside food during fever?", unanswered: true },
+    { name: "Selvarani", id: "SEL-9979-1965", q: "Can I drink fruit juice during this time?", answered: "Yes, please take without sugar and ice 🍹", unanswered: false },
+  ];
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-3 gap-2">
+        {[
+          { v: "3", l: "Unanswered", color: "var(--coral)" },
+          { v: "13", l: "Total Queries", color: "var(--amber)" },
+          { v: "10", l: "Answered", color: "var(--teal)" },
+        ].map((s) => (
+          <div key={s.l} className="rounded-xl p-2 text-center" style={{ background: "white", border: "1px solid var(--border)" }}>
+            <p className="text-2xl font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: s.color }}>{s.v}</p>
+            <p className="text-[10px] text-gray-400">{s.l}</p>
+          </div>
+        ))}
+      </div>
+      {queries.map((q) => (
+        <div key={q.id} className="rounded-xl p-3" style={{ background: "white", border: `1px solid ${q.unanswered ? "#FECACA" : "var(--border)"}` }}>
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style={{ background: q.unanswered ? "var(--coral)" : "var(--teal)" }}>
+              {q.name[0]}
+            </div>
+            <div>
+              <p className="font-semibold text-xs" style={{ color: "var(--navy)" }}>{q.name}</p>
+              <p className="text-[9px] text-gray-400">{q.id}</p>
+            </div>
+          </div>
+          <p className="text-xs italic text-gray-600 mb-2">&quot;{q.q}&quot;</p>
+          {q.answered ? (
+            <div className="rounded-lg px-2 py-1.5 text-xs" style={{ background: "var(--teal-light)", color: "var(--teal-dark)" }}>
+              Dr. Kumar: {q.answered}
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <input
+                className="flex-1 rounded-lg px-2 py-1 text-xs border outline-none"
+                style={{ borderColor: "var(--border)" }}
+                placeholder="Type your reply..."
+                readOnly
+              />
+              <button className="px-3 py-1 rounded-lg text-xs font-semibold text-white" style={{ background: "var(--teal)" }}>Send</button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 const TAB_DATA = [
   {
     title: "Real-time queue, token by token",
@@ -440,6 +493,18 @@ const TAB_DATA = [
     ],
     mockup: <AnalyticsMockup />,
   },
+  {
+    title: "Doctor answers on WhatsApp, patients get it instantly",
+    body: "Patients send medical questions via WhatsApp. Doctor replies from the dashboard. Patient gets the answer on WhatsApp — no calls, no delays, no dropped messages.",
+    bullets: [
+      "Patient selects their name from a list",
+      "Types question in plain language",
+      "Doctor sees all unanswered queries in one view",
+      "Reply sent back to patient on WhatsApp immediately",
+      "Full query history per patient",
+    ],
+    mockup: <QueriesMockup />,
+  },
 ];
 
 export default function Features() {
@@ -469,14 +534,17 @@ export default function Features() {
             <button
               key={tab}
               onClick={() => setActive(i)}
-              className="px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap"
+              className="px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap relative"
               style={{
-                background: active === i ? "var(--teal)" : "white",
-                color: active === i ? "white" : "var(--slate)",
-                border: `1px solid ${active === i ? "var(--teal)" : "var(--border)"}`,
+                background: active === i ? "var(--teal)" : i === 6 ? "var(--navy)" : "white",
+                color: active === i ? "white" : i === 6 ? "white" : "var(--slate)",
+                border: `1px solid ${active === i ? "var(--teal)" : i === 6 ? "var(--navy)" : "var(--border)"}`,
               }}
             >
               {tab}
+              {i === 6 && active !== 6 && (
+                <span className="ml-1.5 px-1 py-0.5 rounded text-[9px] font-bold bg-white/20">NEW</span>
+              )}
             </button>
           ))}
         </div>
@@ -496,7 +564,7 @@ export default function Features() {
                 className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4"
                 style={{ background: "var(--teal-light)" }}
               >
-                {["🔢", "📅", "💊", "🎥", "📞", "📊"][active]}
+                {["🔢", "📅", "💊", "🎥", "📞", "📊", "💬"][active]}
               </div>
               <h3
                 className="text-2xl font-bold mb-3"
