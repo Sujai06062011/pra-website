@@ -73,14 +73,21 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm">Legal</h4>
             <ul className="space-y-2.5">
-              {["Privacy", "Terms", "DPDP Policy", "Cookie Policy"].map((l) => (
-                <li key={l}>
+              {[
+                { label: "Privacy",      href: "/legal/privacy" },
+                { label: "Terms",        href: "/legal/terms" },
+                { label: "DPDP Policy",  href: "/legal/dpdp" },
+                { label: "Cookie Policy",href: "/legal/cookies" },
+              ].map((l) => (
+                <li key={l.label}>
                   <a
-                    href="#"
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm transition-opacity hover:opacity-80"
                     style={{ color: "var(--teal-light)", opacity: 0.7 }}
                   >
-                    {l}
+                    {l.label}
                   </a>
                 </li>
               ))}
