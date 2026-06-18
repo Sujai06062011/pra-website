@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import SocialProof from "../components/SocialProof";
 import HowItWorks from "../components/HowItWorks";
 import Features from "../components/Features";
+import AskDoctor from "../components/AskDoctor";
 import Dashboard from "../components/Dashboard";
 import Multilingual from "../components/Multilingual";
 import LiveDemo from "../components/LiveDemo";
@@ -19,6 +20,7 @@ export default function Home() {
         <SocialProof />
         <HowItWorks />
         <Features />
+        <AskDoctor />
         <Dashboard />
         <Multilingual />
         <LiveDemo />
