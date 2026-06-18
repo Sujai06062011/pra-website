@@ -3,175 +3,228 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type MsgType = "patient" | "bot" | "typing" | "list-msg" | "confirm" | "doctor-reply";
+// ── Message types ─────────────────────────────────────────────────────────────
+type MsgType = "patient" | "bot" | "typing" | "list-msg" | "reply-buttons" | "confirmation";
 
 interface Message {
   id: number;
   type: MsgType;
   text?: string;
-  rows?: { title: string; desc?: string }[];
-  confirmDetails?: { patient: string; date: string; time: string; token: string };
+  header?: string;
+  subtext?: string;
+  buttons?: string[];
+  listBtn?: string;                     // label for the "≡ …" list button
+  listBtnLabel?: string;                // title shown in modal header
+  confirmDetails?: { name: string; date: string; time: string };
   time?: string;
 }
 
-// ── SEQUENCE 1: Booking flow ─────────────────────────────────────────────────
-const BOOKING_SEQUENCE: Array<{ delay: number; msg: Message; showModal?: boolean; hideModal?: boolean }> = [
-  { delay: 400,  msg: { id: 1,  type: "patient",  text: "Hi",                                           time: "10:12 AM" } },
-  { delay: 1100, msg: { id: 2,  type: "typing" } },
-  { delay: 1900, msg: { id: 3,  type: "list-msg",
-      text: "Welcome to Dr. Kumar Child Care Clinic 👶\nHow can we help you today?",
-      rows: [
-        { title: "Book Appointment",    desc: "Schedule an in-clinic or online visit" },
-        { title: "Queue Status",        desc: "Check your position in today's queue" },
-        { title: "Cancel Appointment",  desc: "Cancel an existing booking" },
-        { title: "Ask Doctor a Question", desc: "Send a medical query to the doctor" },
-      ],
-      time: "10:12 AM" },
-    showModal: false },
-  // "View options" tapped → modal opens
-  { delay: 3200, msg: { id: 3,  type: "list-msg", text: "", rows: [], time: "10:12 AM" }, showModal: true },
-  // tap "Book Appointment"
-  { delay: 4200, msg: { id: 4,  type: "patient",  text: "📅 Book Appointment",                          time: "10:12 AM" }, hideModal: true },
-  { delay: 4700, msg: { id: 5,  type: "list-msg",
-      text: "Who is this appointment for?",
-      rows: [
-        { title: "Aadhira",   desc: "4F" },
-        { title: "Poornima",  desc: "43F" },
-      ],
-      time: "10:12 AM" } },
-  { delay: 5700, msg: { id: 6,  type: "patient",  text: "👧 Aadhira 4F",                               time: "10:12 AM" } },
-  { delay: 6200, msg: { id: 7,  type: "list-msg",
+// ── Modal types ───────────────────────────────────────────────────────────────
+type ModalKind = "viewOptions" | "selectPatient" | "chooseSlot" | null;
+
+// ── Full booking sequence ─────────────────────────────────────────────────────
+interface SeqStep {
+  delay: number;
+  msg?: Message;
+  openModal?: ModalKind;
+  closeModal?: boolean;
+  tapRowIdx?: number;        // row index that glows before close
+}
+
+const BOOKING: SeqStep[] = [
+  // 1. Hi
+  { delay: 800,  msg: { id: 1,  type: "patient",       text: "Hi",                                               time: "9:19 AM" } },
+  { delay: 1800, msg: { id: 2,  type: "typing" } },
+  // 2. Welcome list message
+  { delay: 2800, msg: { id: 3,  type: "list-msg",
+      text: "Welcome to\nDr. Kumar Child Care Clinic",
+      subtext: "How can we help you today?\nReply BYE to end conversation",
+      listBtn: "≡ View options",
+      listBtnLabel: "View options",
+      time: "9:19 AM" } },
+  // 3. Open View Options modal
+  { delay: 4500, openModal: "viewOptions" },
+  // 4. Glow + close → patient taps "Book Appointment"
+  { delay: 6200, closeModal: true, tapRowIdx: 0 },
+  { delay: 6700, msg: { id: 4,  type: "patient",       text: "Book Appointment",                                 time: "9:19 AM" } },
+  // 5. Select patient list message
+  { delay: 7600, msg: { id: 5,  type: "list-msg",
+      header: "📅 Book Appointment",
+      text: "Who is this appointment for?\nReply MENU for main menu",
+      listBtn: "≡ Select patient",
+      listBtnLabel: "Select patient",
+      time: "9:19 AM" } },
+  // 6. Open Select Patient modal
+  { delay: 9200, openModal: "selectPatient" },
+  // 7. Glow row 1 (Sujaikumar) → close
+  { delay: 11000, closeModal: true, tapRowIdx: 1 },
+  { delay: 11500, msg: { id: 6,  type: "patient",       text: "Sujaikumar\n43 yrs · SUJ-9959-1983",              time: "9:19 AM" } },
+  // 8. In Clinic / Online Consultation
+  { delay: 12400, msg: { id: 7,  type: "reply-buttons",
+      text: "Would you like to book:",
+      subtext: "Reply MENU for main menu",
+      buttons: ["In Clinic", "Online Consultation"],
+      time: "9:19 AM" } },
+  { delay: 13700, msg: { id: 8,  type: "patient",       text: "In Clinic",                                       time: "9:19 AM" } },
+  // 9. Date selection
+  { delay: 14500, msg: { id: 9,  type: "reply-buttons",
+      header: "🗓️ Booking for Sujaikumar",
       text: "Which date?",
-      rows: [
-        { title: "Today 17 Jun" },
-        { title: "Tomorrow 18 Jun" },
-        { title: "Other date" },
-      ],
-      time: "10:12 AM" } },
-  { delay: 7100, msg: { id: 8,  type: "patient",  text: "📅 Today 17 Jun",                             time: "10:12 AM" } },
-  { delay: 7600, msg: { id: 9,  type: "list-msg",
-      text: "Choose a session:",
-      rows: [{ title: "🌅 Morning" }, { title: "🌆 Evening" }],
-      time: "10:13 AM" } },
-  { delay: 8400, msg: { id: 10, type: "patient",  text: "🌅 Morning",                                  time: "10:13 AM" } },
-  { delay: 8900, msg: { id: 11, type: "list-msg",
-      text: "Available morning slots — 17 Jun:",
-      rows: [{ title: "⏰ 10:15 AM" }, { title: "⏰ 10:30 AM" }, { title: "⏰ 10:45 AM" }],
-      time: "10:13 AM" } },
-  { delay: 9800, msg: { id: 12, type: "patient",  text: "⏰ 10:15 AM",                                 time: "10:13 AM" } },
-  { delay: 10300, msg: { id: 13, type: "list-msg",
+      subtext: "Tap Other Date to choose a different day",
+      buttons: ["Today 18 Jun", "Tomorrow 19 Jun", "Other Date"],
+      time: "9:19 AM" } },
+  { delay: 15800, msg: { id: 10, type: "patient",       text: "Today 18 Jun",                                    time: "9:19 AM" } },
+  // 10. Session selection
+  { delay: 16600, msg: { id: 11, type: "reply-buttons",
+      header: "📅 Thu 18 Jun",
+      text: "Which session?",
+      subtext: "Morning: 13 slots  ·  Evening: 16 slots",
+      buttons: ["🌅 Morning", "🌆 Evening"],
+      time: "9:19 AM" } },
+  { delay: 17900, msg: { id: 12, type: "patient",       text: "🌆 Evening",                                      time: "9:19 AM" } },
+  // 11. Choose a slot list message
+  { delay: 18700, msg: { id: 13, type: "list-msg",
+      header: "Evening slots for Sujaikumar",
+      text: "Thu 18 Jun\nTap a slot to select it",
+      listBtn: "≡ Choose a slot",
+      listBtnLabel: "Choose a slot",
+      time: "9:19 AM" } },
+  // 12. Open Choose Slot modal
+  { delay: 20200, openModal: "chooseSlot" },
+  // 13. Glow row 2 (6:00 PM) → close
+  { delay: 22000, closeModal: true, tapRowIdx: 2 },
+  { delay: 22500, msg: { id: 14, type: "patient",       text: "6:00 PM\nEvening · Thu 18 Jun",                   time: "9:19 AM" } },
+  // 14. Confirm card
+  { delay: 23400, msg: { id: 15, type: "reply-buttons",
       text: "Confirm this appointment?",
-      confirmDetails: { patient: "Aadhira", date: "17 Jun 2026", time: "10:15 AM", token: "M3" },
-      rows: [{ title: "✅ Confirm" }, { title: "❌ Cancel" }],
-      time: "10:13 AM" } },
-  { delay: 11200, msg: { id: 14, type: "patient",  text: "✅ Confirm",                                 time: "10:13 AM" } },
-  { delay: 11700, msg: { id: 15, type: "confirm",
-      text: "✅ Appointment Confirmed!\n\nPatient: Aadhira\nDate: 17 June 2026\nTime: 10:15 AM\nToken: M3\n\nDr. Kumar Child Care Clinic",
-      time: "10:13 AM" } },
+      subtext: "Tap Confirm to book",
+      confirmDetails: { name: "Sujaikumar", date: "Thu 18 Jun", time: "6:00 PM" },
+      buttons: ["✅ Confirm", "❌ Cancel"],
+      time: "9:20 AM" } },
+  { delay: 24800, msg: { id: 16, type: "patient",       text: "✅ Confirm",                                      time: "9:20 AM" } },
+  // 15. Final confirmation (plain text)
+  { delay: 25600, msg: { id: 17, type: "confirmation",
+      text: "Appointment Confirmed! ✅\n\nPatient: Sujaikumar\nPatient Code: SUJ-9959-1983\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: Dr. Kumar Child Care Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
+      time: "9:20 AM" } },
 ];
 
-// ── SEQUENCE 2: Ask Doctor a Question (Queries) flow ─────────────────────────
-const QUERY_SEQUENCE: Array<{ delay: number; msg: Message; showModal?: boolean; hideModal?: boolean }> = [
-  { delay: 400,  msg: { id: 1,  type: "patient",  text: "Hi",                                           time: "8:55 AM" } },
-  { delay: 1100, msg: { id: 2,  type: "typing" } },
-  { delay: 1900, msg: { id: 3,  type: "list-msg",
-      text: "Welcome to Dr. Kumar Child Care Clinic 👶\nHow can we help you today?",
-      rows: [
-        { title: "Book Appointment",      desc: "Schedule an in-clinic or online visit" },
-        { title: "Queue Status",          desc: "Check your position in today's queue" },
-        { title: "Cancel Appointment",    desc: "Cancel an existing booking" },
-        { title: "Ask Doctor a Question", desc: "Send a medical query to the doctor" },
-      ],
-      time: "8:55 AM" } },
-  // open modal
-  { delay: 3200, msg: { id: 3, type: "list-msg", text: "", rows: [], time: "8:55 AM" }, showModal: true },
-  // tap "Ask Doctor a Question"
-  { delay: 4400, msg: { id: 4, type: "patient", text: "Ask Doctor a Question",                          time: "8:55 AM" }, hideModal: true },
-  { delay: 4900, msg: { id: 5, type: "typing" } },
-  { delay: 5700, msg: { id: 6, type: "bot",
-      text: "Your question is for which patient?\n\n1. Selvarani (SEL-9979-1965)\n2. Sujaikumar (SUJ-9959-1983)\n3. Sivagami (SIV-9959-1997)\n\nReply with a number.",
-      time: "8:55 AM" } },
-  { delay: 6800, msg: { id: 7, type: "patient", text: "1",                                              time: "8:55 AM" } },
-  { delay: 7300, msg: { id: 8, type: "bot",
-      text: "Please type your question for Dr. Kumar.\n\nOur doctor will reply within a few hours. 💬",
-      time: "8:55 AM" } },
-  { delay: 8400, msg: { id: 9, type: "patient", text: "Can I drink fruit juice during this time?",      time: "8:55 AM" } },
-  { delay: 9000, msg: { id: 10, type: "typing" } },
-  { delay: 9800, msg: { id: 11, type: "bot",
-      text: "✅ Your question has been sent to Dr. Kumar!\n\nYou will receive a reply on WhatsApp within a few hours.\n\nReply MENU for main menu.",
-      time: "8:55 AM" } },
-  // Doctor replies
-  { delay: 11200, msg: { id: 12, type: "doctor-reply",
-      text: "👨‍⚕️ Dr. Kumar Child Care Clinic\n\nPatient: SEL-9979-1965\n\nDr. Kumar has replied to your question:\n\nYour question: Can I drink fruit juice during this time?\nDr. Kumar's reply: Yes, please take without sugar and ice 🍹\n\nReply MENU for main menu.",
-      time: "8:56 AM" } },
+// ── Modal data ────────────────────────────────────────────────────────────────
+const VIEW_OPTIONS = [
+  { title: "Book Appointment",      desc: "Schedule an in-clinic or online visit" },
+  { title: "Queue Status",          desc: "Check your position in today's queue" },
+  { title: "Cancel Appointment",    desc: "Cancel an existing booking" },
+  { title: "Ask Doctor a Question", desc: "Send a medical query to the doctor" },
+  { title: "Clinic Timings",        desc: "View our opening hours" },
 ];
 
-const SEQUENCES = [BOOKING_SEQUENCE, QUERY_SEQUENCE];
-const SEQUENCE_LABELS = ["📅 Booking", "💬 Ask Doctor"];
+const PATIENTS = [
+  { title: "Subramaniam", info: "71 yrs · SUB-3323-1955" },
+  { title: "Sujaikumar",  info: "43 yrs · SUJ-9959-1983" },
+  { title: "Selvarani",   info: "61 yrs · SEL-9979-1965" },
+  { title: "Dhanvanth",   info: "13 yrs · DHA-9959-2013" },
+  { title: "Sivagami",    info: "29 yrs · SIV-9959-1997" },
+];
 
-// ── Modal overlay (WhatsApp list sheet) ────────────────────────────────────────
-function ListModal({
+const SLOTS = [
+  { title: "5:30 PM", sub: "Evening · Thu 18 Jun" },
+  { title: "5:45 PM", sub: "Evening · Thu 18 Jun" },
+  { title: "6:00 PM", sub: "Evening · Thu 18 Jun" },
+  { title: "6:15 PM", sub: "Evening · Thu 18 Jun" },
+  { title: "6:30 PM", sub: "Evening · Thu 18 Jun" },
+  { title: "See more slots →", sub: "11 more available" },
+];
+
+// ── RadioModal ─────────────────────────────────────────────────────────────────
+function RadioModal({
+  title,
   rows,
-  onTap,
-  seq,
+  tapIdx,
 }: {
-  rows: { title: string; desc?: string }[];
-  onTap: (i: number) => void;
-  seq: number;
+  title: string;
+  rows: { title: string; desc?: string; info?: string; sub?: string }[];
+  tapIdx: number;
 }) {
-  const tapIdx = seq === 0 ? 0 : 3; // which row to highlight
+  const [lit, setLit] = useState(-1);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLit(tapIdx), 800);
+    return () => clearTimeout(t);
+  }, [tapIdx]);
+
   return (
     <motion.div
-      className="absolute inset-0 flex flex-col justify-end z-10"
-      style={{ background: "rgba(0,0,0,0.5)" }}
+      className="absolute inset-0 flex flex-col justify-end z-20"
+      style={{ background: "rgba(0,0,0,0.55)" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="rounded-t-2xl overflow-hidden"
-        style={{ background: "white" }}
-        initial={{ y: 60 }}
+        className="rounded-t-2xl overflow-hidden flex flex-col"
+        style={{ background: "white", maxHeight: "85%" }}
+        initial={{ y: 80 }}
         animate={{ y: 0 }}
-        exit={{ y: 60 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        exit={{ y: 80 }}
+        transition={{ type: "spring", stiffness: 320, damping: 32 }}
       >
-        <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-          <p className="font-semibold text-sm" style={{ color: "var(--navy)" }}>
-            View options
-          </p>
-          <button className="text-gray-400 text-lg">✕</button>
+        {/* Handle bar */}
+        <div className="flex justify-center pt-2 pb-1">
+          <div className="w-8 h-1 rounded-full bg-gray-300" />
         </div>
-        {rows.map((r, i) => (
-          <motion.div
-            key={i}
-            className="flex items-center justify-between px-4 py-3 border-b border-gray-50 last:border-0"
-            animate={i === tapIdx ? { background: ["#ffffff", "rgba(29,158,117,0.12)", "#ffffff"] } : {}}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            onClick={() => onTap(i)}
+        {/* Header */}
+        <div className="px-4 py-2 flex items-center justify-between border-b border-gray-100">
+          <p className="font-semibold text-sm" style={{ color: "var(--navy)" }}>{title}</p>
+          <span className="text-gray-400 text-base leading-none">✕</span>
+        </div>
+        {/* Rows */}
+        <div className="overflow-y-auto">
+          {rows.map((r, i) => (
+            <motion.div
+              key={i}
+              className="flex items-center justify-between px-4 py-2.5 border-b border-gray-50 last:border-0"
+              animate={
+                i === lit
+                  ? { background: ["#ffffff", "rgba(29,158,117,0.12)", "rgba(29,158,117,0.12)"] }
+                  : {}
+              }
+              transition={{ duration: 0.4 }}
+            >
+              <div className="flex-1 min-w-0 pr-2">
+                <p className="text-xs font-medium truncate" style={{ color: "var(--navy)" }}>
+                  {r.title}
+                </p>
+                <p className="text-[10px] text-gray-400 truncate">
+                  {r.desc ?? r.info ?? r.sub}
+                </p>
+              </div>
+              <div
+                className="w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all"
+                style={{
+                  borderColor: i === lit ? "var(--teal)" : "#CBD5E0",
+                  background: i === lit ? "var(--teal)" : "transparent",
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
+        {/* Send button */}
+        <div className="px-4 py-3 border-t border-gray-100">
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center ml-auto"
+            style={{ background: "var(--wa-green)" }}
           >
-            <div>
-              <p className="text-sm font-medium" style={{ color: "var(--navy)" }}>
-                {r.title}
-              </p>
-              {r.desc && <p className="text-xs text-gray-400">{r.desc}</p>}
-            </div>
-            <div
-              className="w-4 h-4 rounded-full border-2 flex-shrink-0"
-              style={{
-                borderColor: i === tapIdx ? "var(--teal)" : "#CBD5E0",
-                background: i === tapIdx ? "var(--teal)" : "transparent",
-              }}
-            />
-          </motion.div>
-        ))}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+            </svg>
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   );
 }
 
-// ── Individual message bubble ──────────────────────────────────────────────────
-function WaMessage({ msg }: { msg: Message }) {
+// ── Individual message bubble ─────────────────────────────────────────────────
+function WaMsg({ msg }: { msg: Message }) {
   if (msg.type === "typing") {
     return (
       <div className="flex justify-start">
@@ -187,8 +240,11 @@ function WaMessage({ msg }: { msg: Message }) {
   if (msg.type === "patient") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[80%]">
-          <div className="px-3 py-2 rounded-2xl rounded-tr-sm text-xs text-gray-800" style={{ background: "#DCF8C6" }}>
+        <div className="max-w-[78%]">
+          <div
+            className="px-3 py-2 rounded-2xl rounded-tr-sm text-xs text-gray-800 whitespace-pre-line"
+            style={{ background: "#DCF8C6" }}
+          >
             {msg.text}
           </div>
           <p className="text-right text-[9px] text-gray-400 mt-0.5 pr-1">{msg.time}</p>
@@ -197,10 +253,10 @@ function WaMessage({ msg }: { msg: Message }) {
     );
   }
 
-  if (msg.type === "bot") {
+  if (msg.type === "confirmation") {
     return (
       <div className="flex justify-start">
-        <div className="max-w-[88%]">
+        <div className="max-w-[90%]">
           <div
             className="px-3 py-2 rounded-2xl rounded-tl-sm text-xs text-gray-700 whitespace-pre-line shadow-sm"
             style={{ background: "white" }}
@@ -213,8 +269,7 @@ function WaMessage({ msg }: { msg: Message }) {
     );
   }
 
-  if (msg.type === "doctor-reply") {
-    const lines = msg.text?.split("\n") ?? [];
+  if (msg.type === "list-msg") {
     return (
       <div className="flex justify-start">
         <div className="max-w-[90%]">
@@ -222,69 +277,66 @@ function WaMessage({ msg }: { msg: Message }) {
             className="rounded-2xl rounded-tl-sm overflow-hidden shadow-sm"
             style={{ background: "white", border: "1px solid var(--border)" }}
           >
-            <div className="px-3 py-2" style={{ background: "var(--teal)", color: "white" }}>
-              <p className="text-xs font-semibold">{lines[0]}</p>
-            </div>
-            <div className="px-3 py-2 text-xs text-gray-700 whitespace-pre-line">
-              {lines.slice(2).join("\n")}
-            </div>
-          </div>
-          <p className="text-[9px] text-gray-400 mt-0.5 pl-1">{msg.time}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (msg.type === "confirm") {
-    const lines = msg.text?.split("\n") ?? [];
-    return (
-      <div className="flex justify-start">
-        <div className="max-w-[88%]">
-          <div
-            className="rounded-2xl rounded-tl-sm overflow-hidden shadow-sm"
-            style={{ background: "white", border: "1px solid var(--border)" }}
-          >
-            <div className="px-3 py-2" style={{ background: "#25D366", color: "white" }}>
-              <p className="text-xs font-semibold">{lines[0]}</p>
-            </div>
-            <div className="px-3 py-2 text-xs text-gray-700 whitespace-pre-line">
-              {lines.slice(2).join("\n")}
-            </div>
-          </div>
-          <p className="text-[9px] text-gray-400 mt-0.5 pl-1">{msg.time}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (msg.type === "list-msg" && msg.text) {
-    return (
-      <div className="flex justify-start">
-        <div className="max-w-[90%]">
-          <div
-            className="rounded-2xl rounded-tl-sm overflow-hidden shadow-sm"
-            style={{ background: "white", border: "1px solid var(--border)" }}
-          >
-            {msg.confirmDetails ? (
-              <>
-                <div className="px-3 pt-3 pb-1 text-xs text-gray-700 whitespace-pre-line">
-                  <p className="font-medium mb-1.5">{msg.text}</p>
-                  <div className="rounded-lg p-2 space-y-0.5" style={{ background: "var(--teal-light)" }}>
-                    <p>👤 {msg.confirmDetails.patient}</p>
-                    <p>📅 {msg.confirmDetails.date}</p>
-                    <p>⏰ {msg.confirmDetails.time}</p>
-                    <p>🎫 Token {msg.confirmDetails.token}</p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="px-3 pt-3 pb-2 text-xs text-gray-700 whitespace-pre-line">{msg.text}</div>
+            {msg.header && (
+              <div className="px-3 pt-2.5 pb-0.5 text-xs font-semibold" style={{ color: "var(--teal-dark)" }}>
+                {msg.header}
+              </div>
             )}
-            <div
-              className="mx-3 mb-3 py-1.5 rounded-lg text-center text-xs font-semibold border"
-              style={{ borderColor: "var(--teal)", color: "var(--teal)" }}
-            >
-              View options ›
+            <div className="px-3 pt-2 pb-1 text-xs text-gray-700 whitespace-pre-line">
+              {msg.text}
+            </div>
+            {msg.subtext && (
+              <p className="px-3 pb-2 text-[10px] text-gray-400">{msg.subtext}</p>
+            )}
+            <div className="border-t border-gray-100 mx-2 mb-2">
+              <div
+                className="mt-1.5 py-1.5 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1"
+                style={{ color: "var(--teal)" }}
+              >
+                {msg.listBtn}
+              </div>
+            </div>
+          </div>
+          <p className="text-[9px] text-gray-400 mt-0.5 pl-1">{msg.time}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (msg.type === "reply-buttons") {
+    return (
+      <div className="flex justify-start">
+        <div className="max-w-[90%]">
+          <div
+            className="rounded-2xl rounded-tl-sm overflow-hidden shadow-sm"
+            style={{ background: "white", border: "1px solid var(--border)" }}
+          >
+            {msg.header && (
+              <div className="px-3 pt-2.5 pb-0.5 text-xs font-semibold" style={{ color: "var(--teal-dark)" }}>
+                {msg.header}
+              </div>
+            )}
+            <div className="px-3 pt-2 pb-1 text-xs text-gray-700">{msg.text}</div>
+            {msg.subtext && (
+              <p className="px-3 pb-1 text-[10px] text-gray-400">{msg.subtext}</p>
+            )}
+            {msg.confirmDetails && (
+              <div className="mx-3 mb-1.5 p-2 rounded-xl text-xs space-y-0.5" style={{ background: "var(--mist)" }}>
+                <p className="text-gray-600">👤 {msg.confirmDetails.name}</p>
+                <p className="text-gray-600">📅 {msg.confirmDetails.date}</p>
+                <p className="text-gray-600">⏰ {msg.confirmDetails.time}</p>
+              </div>
+            )}
+            <div className="border-t border-gray-100 flex gap-0">
+              {msg.buttons?.map((b, i) => (
+                <div
+                  key={i}
+                  className="flex-1 text-center py-2 text-xs font-semibold border-r border-gray-100 last:border-0"
+                  style={{ color: "var(--teal)" }}
+                >
+                  {b}
+                </div>
+              ))}
             </div>
           </div>
           <p className="text-[9px] text-gray-400 mt-0.5 pl-1">{msg.time}</p>
@@ -296,66 +348,66 @@ function WaMessage({ msg }: { msg: Message }) {
   return null;
 }
 
-// ── Phone mockup ───────────────────────────────────────────────────────────────
+// ── Phone ─────────────────────────────────────────────────────────────────────
 function WhatsAppPhone() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalRows, setModalRows] = useState<{ title: string; desc?: string }[]>([]);
-  const [seqIdx, setSeqIdx] = useState(0);
+  const [messages, setMessages]   = useState<Message[]>([]);
+  const [modal, setModal]         = useState<ModalKind>(null);
+  const [tapRowIdx, setTapRowIdx] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // auto-scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
     }
-  }, [messages, modalOpen]);
+  }, [messages, modal]);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
 
-    function runSequence(idx: number) {
-      const seq = SEQUENCES[idx];
+    function run() {
       setMessages([]);
-      setModalOpen(false);
+      setModal(null);
 
-      seq.forEach(({ delay, msg, showModal, hideModal }) => {
+      BOOKING.forEach((step) => {
         const t = setTimeout(() => {
-          if (showModal && msg.id === 3) {
-            // re-read rows from original sequence step
-            const original = seq.find((s) => s.msg.id === 3 && !s.showModal);
-            setModalRows(original?.msg.rows ?? []);
-            setModalOpen(true);
+          if (step.openModal) {
+            setModal(step.openModal);
             return;
           }
-          if (hideModal) setModalOpen(false);
-
-          if (msg.type === "typing") {
-            setMessages((prev) => [...prev.filter((m) => m.type !== "typing"), msg]);
-          } else {
-            setMessages((prev) => [...prev.filter((m) => m.type !== "typing"), msg]);
+          if (step.closeModal) {
+            if (step.tapRowIdx !== undefined) setTapRowIdx(step.tapRowIdx);
+            // small delay so row glow is visible before close
+            setTimeout(() => setModal(null), 700);
+            return;
           }
-        }, delay);
+          if (step.msg) {
+            const m = step.msg;
+            setMessages((prev) => [...prev.filter((x) => x.type !== "typing"), m]);
+          }
+        }, step.delay);
         timers.push(t);
       });
 
-      // reset after sequence ends, then switch to next
-      const totalDuration = seq[seq.length - 1].delay + 3500;
-      const reset = setTimeout(() => {
-        const next = (idx + 1) % SEQUENCES.length;
-        setSeqIdx(next);
-        runSequence(next);
-      }, totalDuration);
+      const lastDelay = BOOKING[BOOKING.length - 1].delay + 5000;
+      const reset = setTimeout(run, lastDelay);
       timers.push(reset);
     }
 
-    runSequence(seqIdx);
+    run();
     return () => timers.forEach(clearTimeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const modalProps =
+    modal === "viewOptions"
+      ? { title: "View options",  rows: VIEW_OPTIONS, tapIdx: tapRowIdx }
+      : modal === "selectPatient"
+      ? { title: "Select patient", rows: PATIENTS,     tapIdx: tapRowIdx }
+      : modal === "chooseSlot"
+      ? { title: "Choose a slot", rows: SLOTS,         tapIdx: tapRowIdx }
+      : null;
+
   return (
-    <div className="relative mx-auto" style={{ width: 280, filter: "drop-shadow(0 24px 48px rgba(0,0,0,0.25))" }}>
+    <div className="relative mx-auto" style={{ width: 288, filter: "drop-shadow(0 28px 52px rgba(0,0,0,0.28))" }}>
       <div
         className="relative rounded-[36px] overflow-hidden"
         style={{ background: "#1A1A2E", padding: "12px 8px 20px", border: "2px solid #2a2a4a" }}
@@ -366,56 +418,46 @@ function WhatsAppPhone() {
         </div>
 
         {/* WA Header */}
-        <div className="px-2 py-2 flex items-center gap-2" style={{ background: "#128C7E" }}>
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-            style={{ background: "#25D366" }}
-          >
+        <div className="px-3 py-2 flex items-center gap-2" style={{ background: "#128C7E" }}>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style={{ background: "#25D366" }}>
             DK
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-white text-xs font-semibold leading-none truncate">Dr. Kumar Child Care</p>
             <p className="text-green-200 text-[10px]">online</p>
           </div>
-          {/* Sequence label */}
-          <div
-            className="px-1.5 py-0.5 rounded-full text-[9px] font-semibold text-white flex-shrink-0"
-            style={{ background: "rgba(255,255,255,0.2)" }}
-          >
-            {SEQUENCE_LABELS[seqIdx]}
-          </div>
         </div>
 
-        {/* Chat area with scroll */}
-        <div
-          ref={scrollRef}
-          className="overflow-y-auto flex flex-col gap-2 px-2 py-2 relative"
-          style={{
-            height: 380,
-            background: "#ECE5DD",
-            scrollbarWidth: "none",
-          }}
-        >
-          <AnimatePresence>
-            {messages.map((msg) => (
-              <motion.div
-                key={msg.id + msg.type}
-                initial={{ opacity: 0, x: msg.type === "patient" ? 20 : -20, y: 6 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                <WaMessage msg={msg} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+        {/* Chat + modal container */}
+        <div className="relative" style={{ height: 420 }}>
+          {/* Scrollable messages */}
+          <div
+            ref={scrollRef}
+            className="h-full overflow-y-auto flex flex-col gap-2 px-2 py-2"
+            style={{ background: "#ECE5DD", scrollbarWidth: "none" }}
+          >
+            <AnimatePresence>
+              {messages.map((msg) => (
+                <motion.div
+                  key={msg.id + "-" + msg.type}
+                  initial={{ opacity: 0, x: msg.type === "patient" ? 20 : -20, y: 6 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  transition={{ duration: 0.28 }}
+                >
+                  <WaMsg msg={msg} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
 
-          {/* Modal overlay inside the chat area */}
+          {/* Modal overlaid on chat */}
           <AnimatePresence>
-            {modalOpen && (
-              <ListModal
-                rows={modalRows}
-                seq={seqIdx}
-                onTap={() => setModalOpen(false)}
+            {modal && modalProps && (
+              <RadioModal
+                key={modal}
+                title={modalProps.title}
+                rows={modalProps.rows}
+                tapIdx={modalProps.tapIdx}
               />
             )}
           </AnimatePresence>
@@ -426,10 +468,7 @@ function WhatsAppPhone() {
           <div className="flex-1 bg-white rounded-full px-3 py-1.5 text-xs text-gray-400">
             Type a message
           </div>
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: "#25D366" }}
-          >
+          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#25D366" }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
               <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
             </svg>
@@ -445,7 +484,7 @@ function WhatsAppPhone() {
   );
 }
 
-// ── Hero section ───────────────────────────────────────────────────────────────
+// ── Hero ──────────────────────────────────────────────────────────────────────
 export default function Hero() {
   return (
     <section
@@ -463,11 +502,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[55%_45%] gap-12 items-center">
 
           {/* Left */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold mb-6"
               style={{ background: "var(--teal-light)", color: "var(--teal-dark)", border: "1px solid var(--teal)" }}
@@ -505,21 +540,13 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-wrap gap-3 mb-6">
-              <a
-                href="#pricing"
-                className="px-6 py-3 rounded-xl text-white font-semibold text-base transition-all hover:opacity-90 hover:-translate-y-0.5"
-                style={{ background: "var(--teal)" }}
-              >
+              <a href="#pricing" className="px-6 py-3 rounded-xl text-white font-semibold text-base transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: "var(--teal)" }}>
                 Start free trial →
               </a>
-              <a
-                href="https://wa.me/918438055569"
-                target="_blank"
-                rel="noopener noreferrer"
+              <a href="https://wa.me/918438055569" target="_blank" rel="noopener noreferrer"
                 className="px-6 py-3 rounded-xl font-semibold text-base transition-all hover:opacity-90"
-                style={{ border: "2px solid var(--wa-green)", color: "var(--wa-green)", background: "white" }}
-              >
-                See it live on WhatsApp ↗
+                style={{ border: "2px solid var(--wa-green)", color: "var(--wa-green)", background: "white" }}>
+                Try it on WhatsApp ↗
               </a>
             </div>
 
@@ -535,15 +562,16 @@ export default function Hero() {
           {/* Right — Phone */}
           <motion.div
             className="flex flex-col items-center lg:items-end gap-3"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <WhatsAppPhone />
-            <p className="text-xs text-center" style={{ color: "var(--slate)", opacity: 0.7 }}>
-              Live demo — cycles through Booking &amp; Ask Doctor flows
+            <p className="text-xs" style={{ color: "var(--slate)", opacity: 0.6 }}>
+              Live demo — full appointment booking flow
             </p>
           </motion.div>
+
         </div>
       </div>
     </section>
