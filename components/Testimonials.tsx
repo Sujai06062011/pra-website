@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const TESTIMONIALS = [
   {
     quote:
-      "Before PRA, my receptionist spent 2 hours daily answering booking calls. Now patients book themselves at 11pm if they want.",
+      "Before PRA, my receptionist spent 2 hours daily answering booking calls. Now patients book themselves when they want.",
     name: "Dr. Priya Ramesh",
     role: "Paediatrician, Chennai",
     initials: "PR",

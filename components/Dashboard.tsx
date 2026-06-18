@@ -173,7 +173,14 @@ function DashboardUI() {
             <p className="font-semibold text-[11px]" style={{ color: "var(--navy)" }}>Today Appointments — 8 active</p>
             <span className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold text-white" style={{ background: "var(--wa-green)" }}>● Live</span>
           </div>
-          <table className="w-full text-[9px]">
+          <table className="w-full text-[9px]" style={{ tableLayout: "fixed" }}>
+            <colgroup>
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "28%" }} />
+              <col style={{ width: "18%" }} />
+              <col style={{ width: "18%" }} />
+              <col style={{ width: "22%" }} />
+            </colgroup>
             <thead>
               <tr style={{ background: "var(--mist)" }}>
                 {["TOKEN", "PATIENT", "TIME", "TYPE", "STATUS"].map((h) => (
@@ -185,7 +192,7 @@ function DashboardUI() {
               {APPTS.map((row) => (
                 <tr key={row.token} className="border-b last:border-0" style={{ borderColor: "var(--border)", background: row.status === "active" ? "rgba(29,158,117,0.04)" : "white" }}>
                   <td className="px-3 py-1.5 font-bold" style={{ color: row.status === "seen" ? "#9CA3AF" : row.status === "active" ? "var(--teal)" : "var(--navy)" }}>{row.token}</td>
-                  <td className="px-3 py-1.5" style={{ color: row.status === "seen" ? "#9CA3AF" : "var(--navy)" }}>{row.name}</td>
+                  <td className="px-3 py-1.5 truncate" style={{ color: row.status === "seen" ? "#9CA3AF" : "var(--navy)" }}>{row.name}</td>
                   <td className="px-3 py-1.5 text-gray-400">{row.time}</td>
                   <td className="px-3 py-1.5">
                     <span className="px-1.5 py-0.5 rounded text-[8px] font-semibold"
@@ -277,24 +284,27 @@ export default function Dashboard() {
         {/* Callouts */}
         <div className="grid md:grid-cols-3 gap-6 mt-10">
           {[
-            { icon: "⚡", title: "Live updates",       body: "Queue and appointments update in real time" },
-            { icon: "💬", title: "WhatsApp connected",  body: "All patient communication flows through one number" },
-            { icon: "📱", title: "Multi-device",        body: "Works on phone, tablet, and desktop" },
-          ].map((c) => (
+            { icon: "⚡", title: "Live updates",       body: "Queue and appointments update in real time",                     bg: "linear-gradient(135deg, #0D9488 0%, #0F766E 100%)", iconBg: "rgba(255,255,255,0.15)" },
+            { icon: "💬", title: "WhatsApp connected",  body: "All patient communication flows through one number",             bg: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)", iconBg: "rgba(255,255,255,0.15)" },
+            { icon: "📱", title: "Multi-device",        body: "Works on phone, tablet, and desktop",                           bg: "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)", iconBg: "rgba(255,255,255,0.15)" },
+          ].map((c, i) => (
             <motion.div
               key={c.title}
-              className="text-center p-6 rounded-2xl"
-              style={{ background: "white", border: "1px solid var(--border)", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}
+              className="text-center p-7 rounded-2xl"
+              style={{ background: c.bg, boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              <div className="text-3xl mb-3">{c.icon}</div>
-              <h3 className="font-semibold mb-1" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: "var(--navy)" }}>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4"
+                style={{ background: c.iconBg }}>
+                {c.icon}
+              </div>
+              <h3 className="font-semibold text-white mb-2" style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}>
                 {c.title}
               </h3>
-              <p className="text-sm" style={{ color: "var(--slate)" }}>{c.body}</p>
+              <p className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>{c.body}</p>
             </motion.div>
           ))}
         </div>
