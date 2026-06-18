@@ -327,7 +327,7 @@ function DashboardUI() {
 
 export default function Dashboard() {
   return (
-    <section id="dashboard" className="py-24" style={{ background: "var(--navy)" }}>
+    <section id="dashboard" className="py-24" style={{ background: "#F8FAFC", borderTop: "4px solid var(--teal)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -337,12 +337,12 @@ export default function Dashboard() {
           transition={{ duration: 0.5 }}
         >
           <h2
-            className="text-4xl font-bold text-white mb-4"
-            style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+            className="text-4xl font-bold mb-4"
+            style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: "var(--navy)" }}
           >
             The command centre for your clinic
           </h2>
-          <p className="text-lg" style={{ color: "var(--teal-light)" }}>
+          <p className="text-lg" style={{ color: "var(--slate)" }}>
             Everything in one view. Nothing to configure.
           </p>
         </motion.div>
@@ -350,7 +350,7 @@ export default function Dashboard() {
         {/* Browser mockup */}
         <motion.div
           className="mx-auto overflow-hidden rounded-2xl"
-          style={{ maxWidth: "90%", border: "1px solid rgba(255,255,255,0.1)" }}
+          style={{ maxWidth: "90%", border: "1px solid var(--border)", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
