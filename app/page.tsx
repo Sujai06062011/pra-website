@@ -9,6 +9,7 @@ import Multilingual from "../components/Multilingual";
 import LiveDemo from "../components/LiveDemo";
 import Pricing from "../components/Pricing";
 import Testimonials from "../components/Testimonials";
+import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <LiveDemo />
         <Pricing />
         <Testimonials />
+        <Contact />
       </main>
       <Footer />
     </>

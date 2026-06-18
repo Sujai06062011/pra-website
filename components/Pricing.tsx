@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
+import ContactModal from "./ContactModal";
 
 const PLANS = [
   {
@@ -56,6 +57,7 @@ const PLANS = [
 
 export default function Pricing() {
   const [annual, setAnnual] = useState(false);
+  const [modal, setModal]   = useState<{ open: boolean; type: "demo" | "trial" }>({ open: false, type: "trial" });
 
   return (
     <section id="pricing" className="py-24" style={{ background: "var(--mist)" }}>
@@ -200,9 +202,9 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <a
-                  href="#"
-                  className="block text-center py-3 rounded-xl font-semibold text-sm transition-all hover:opacity-90"
+                <button
+                  onClick={() => setModal({ open: true, type: plan.name === "Pro" ? "demo" : "trial" })}
+                  className="block w-full text-center py-3 rounded-xl font-semibold text-sm transition-all hover:opacity-90"
                   style={
                     plan.highlight
                       ? { background: "var(--teal)", color: "white" }
@@ -210,7 +212,7 @@ export default function Pricing() {
                   }
                 >
                   {plan.cta}
-                </a>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -220,6 +222,12 @@ export default function Pricing() {
           All plans include a 14-day free trial. No credit card required.
         </p>
       </div>
+
+      <ContactModal
+        open={modal.open}
+        formType={modal.type}
+        onClose={() => setModal((m) => ({ ...m, open: false }))}
+      />
     </section>
   );
 }

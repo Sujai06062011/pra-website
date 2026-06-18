@@ -37,14 +37,20 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm">Product</h4>
             <ul className="space-y-2.5">
-              {["Features", "Pricing", "Dashboard"].map((l) => (
-                <li key={l}>
+              {[
+                { label: "Features",     href: "#features" },
+                { label: "How it works", href: "#how-it-works" },
+                { label: "Dashboard",    href: "#dashboard" },
+                { label: "Pricing",      href: "#pricing" },
+                { label: "Contact Us",   href: "#contact" },
+              ].map((l) => (
+                <li key={l.label}>
                   <a
-                    href="#"
+                    href={l.href}
                     className="text-sm transition-opacity hover:opacity-80"
                     style={{ color: "var(--teal-light)", opacity: 0.7 }}
                   >
-                    {l}
+                    {l.label}
                   </a>
                 </li>
               ))}
