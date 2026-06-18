@@ -35,7 +35,7 @@ export default function Contact() {
   const focusStyle: React.CSSProperties = { border: "1.5px solid #0D9488" };
 
   return (
-    <section id="contact" className="py-20" style={{ background: "linear-gradient(135deg, #0D2A2A 0%, #0F2D3A 50%, #0B1A2E 100%)", borderBottom: "2px solid rgba(13,148,136,0.3)" }}>
+    <section id="contact" className="py-20" style={{ background: "#F1F5F9" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
@@ -48,18 +48,18 @@ export default function Contact() {
           >
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold mb-6"
-              style={{ background: "rgba(13,148,136,0.15)", color: "var(--teal-light)", border: "1px solid rgba(13,148,136,0.3)" }}
+              style={{ background: "rgba(13,148,136,0.1)", color: "var(--teal-dark)", border: "1px solid rgba(13,148,136,0.25)" }}
             >
               ✉️ Get in touch
             </div>
             <h2
-              className="text-4xl font-bold text-white mb-4 leading-tight"
-              style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+              className="text-4xl font-bold mb-4 leading-tight"
+              style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: "var(--navy)" }}
             >
               Let&apos;s get your clinic<br />
-              <span style={{ color: "var(--teal-light)" }}>on WhatsApp.</span>
+              <span style={{ color: "var(--teal)" }}>on WhatsApp.</span>
             </h2>
-            <p className="text-lg mb-8 leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+            <p className="text-lg mb-8 leading-relaxed" style={{ color: "var(--slate)" }}>
               Have questions about PRA? Want a personalised demo? Fill the form and we&apos;ll get back to you within 24 hours.
             </p>
 
@@ -72,20 +72,20 @@ export default function Contact() {
                 <div key={item.title} className="flex items-center gap-4">
                   <div
                     className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                    style={{ background: "rgba(255,255,255,0.06)" }}
+                    style={{ background: "white", border: "1px solid var(--border)" }}
                   >
                     {item.icon}
                   </div>
                   <div>
                     {item.href ? (
                       <a href={item.href} target="_blank" rel="noopener noreferrer"
-                        className="font-semibold text-sm text-white hover:opacity-80 transition-opacity">
+                        className="font-semibold text-sm hover:opacity-80 transition-opacity" style={{ color: "var(--navy)" }}>
                         {item.title}
                       </a>
                     ) : (
-                      <p className="font-semibold text-sm text-white">{item.title}</p>
+                      <p className="font-semibold text-sm" style={{ color: "var(--navy)" }}>{item.title}</p>
                     )}
-                    <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>{item.sub}</p>
+                    <p className="text-sm" style={{ color: "var(--slate)" }}>{item.sub}</p>
                   </div>
                 </div>
               ))}
@@ -99,7 +99,7 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <div className="rounded-2xl p-6 sm:p-8" style={{ background: "#F8FAFC" }}>
+            <div className="rounded-2xl p-6 sm:p-8" style={{ background: "white", boxShadow: "0 4px 24px rgba(0,0,0,0.06)", border: "1px solid var(--border)" }}>
               {status === "success" ? (
                 <div className="text-center py-10">
                   <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "#F0FDF9" }}>
