@@ -112,7 +112,7 @@ export default function SocialProof() {
           className="rounded-2xl py-6 px-4"
           style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
         >
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-6 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
             {STATS.map((s, i) => (
               <div key={i} className="relative">
                 <Stat stat={s} />
