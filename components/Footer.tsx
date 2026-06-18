@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer style={{ background: "var(--navy)" }} className="pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-10 mb-12">
+        <div className="grid md:grid-cols-3 gap-10 mb-12">
           {/* Col 1 */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -37,7 +37,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm">Product</h4>
             <ul className="space-y-2.5">
-              {["Features", "Pricing", "Dashboard", "Security", "Changelog"].map((l) => (
+              {["Features", "Pricing", "Dashboard"].map((l) => (
                 <li key={l}>
                   <a
                     href="#"
@@ -52,24 +52,6 @@ export default function Footer() {
           </div>
 
           {/* Col 3 */}
-          <div>
-            <h4 className="text-white font-semibold mb-4 text-sm">Company</h4>
-            <ul className="space-y-2.5">
-              {["About", "Blog", "Careers", "Press"].map((l) => (
-                <li key={l}>
-                  <a
-                    href="#"
-                    className="text-sm transition-opacity hover:opacity-80"
-                    style={{ color: "var(--teal-light)", opacity: 0.7 }}
-                  >
-                    {l}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4 */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm">Legal</h4>
             <ul className="space-y-2.5">
