@@ -354,9 +354,9 @@ export default function AskDoctor() {
   }, []);
 
   return (
-    <section className="py-24 overflow-hidden" style={{ background: "#0B1120" }}>
+    <section className="py-12 lg:py-24 overflow-hidden" style={{ background: "#0B1120" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
           {/* Left — text */}
           <motion.div
@@ -423,63 +423,86 @@ export default function AskDoctor() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            {/* Label row */}
-            <div className="flex items-center gap-6 text-xs font-semibold w-full" style={{ maxWidth: 580 }}>
-              <div className="flex-shrink-0 w-[240px] text-center" style={{ color: "var(--teal-light)" }}>
-                📱 Patient (WhatsApp)
-              </div>
-              <div className="flex-1 text-center" style={{ color: "var(--teal-light)" }}>
-                🖥️ Doctor (Dashboard)
-              </div>
-            </div>
-
-            {/* Side-by-side panels */}
-            <div className="flex items-start gap-6">
+            {/* ── MOBILE: phone only, centred ── */}
+            <div className="flex lg:hidden flex-col items-center gap-4 w-full">
+              <p className="text-xs font-semibold" style={{ color: "var(--teal-light)" }}>📱 Patient (WhatsApp)</p>
               <WaPhone messages={waMessages} />
-
-              {/* Arrow */}
-              <div className="flex flex-col items-center justify-center gap-2 pt-32 flex-shrink-0">
-                <motion.div
-                  animate={{ x: [0, 6, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
-                  className="text-lg"
-                  style={{ color: "var(--teal)" }}
-                >
-                  →
-                </motion.div>
-                <motion.div
-                  animate={{ x: [0, -6, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut", delay: 0.7 }}
-                  className="text-lg"
-                  style={{ color: "var(--wa-green)" }}
-                >
-                  ←
-                </motion.div>
+              {/* Step indicators — 2×2 grid on mobile */}
+              <div className="grid grid-cols-2 gap-3 mt-2 w-full max-w-xs">
+                {[
+                  { n: "1", label: "Patient asks on WhatsApp" },
+                  { n: "2", label: "Appears on dashboard" },
+                  { n: "3", label: "Doctor types reply" },
+                  { n: "4", label: "Patient gets it instantly" },
+                ].map((s) => (
+                  <div key={s.n} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "rgba(255,255,255,0.05)" }}>
+                    <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold" style={{ background: "var(--teal)", color: "white" }}>{s.n}</div>
+                    <p className="text-[10px]" style={{ color: "var(--teal-light)", opacity: 0.8 }}>{s.label}</p>
+                  </div>
+                ))}
               </div>
-
-              <DashPanel phase={dashPhase} />
             </div>
 
-            {/* Step indicators */}
-            <div className="flex gap-6 text-center mt-2">
-              {[
-                { n: "1", label: "Patient asks on WhatsApp" },
-                { n: "2", label: "Appears on dashboard" },
-                { n: "3", label: "Doctor types reply" },
-                { n: "4", label: "Patient gets it instantly" },
-              ].map((s) => (
-                <div key={s.n} className="flex flex-col items-center gap-1">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
-                    style={{ background: "rgba(255,255,255,0.1)", color: "var(--teal-light)" }}
-                  >
-                    {s.n}
-                  </div>
-                  <p className="text-[10px] text-center" style={{ color: "var(--teal-light)", opacity: 0.7, maxWidth: 70 }}>
-                    {s.label}
-                  </p>
+            {/* ── DESKTOP: side-by-side ── */}
+            <div className="hidden lg:flex flex-col items-center gap-4">
+              {/* Label row */}
+              <div className="flex items-center gap-6 text-xs font-semibold w-full" style={{ maxWidth: 580 }}>
+                <div className="flex-shrink-0 w-[240px] text-center" style={{ color: "var(--teal-light)" }}>
+                  📱 Patient (WhatsApp)
                 </div>
-              ))}
+                <div className="flex-1 text-center" style={{ color: "var(--teal-light)" }}>
+                  🖥️ Doctor (Dashboard)
+                </div>
+              </div>
+
+              {/* Side-by-side panels */}
+              <div className="flex items-start gap-6">
+                <WaPhone messages={waMessages} />
+
+                {/* Arrow */}
+                <div className="flex flex-col items-center justify-center gap-2 pt-32 flex-shrink-0">
+                  <motion.div
+                    animate={{ x: [0, 6, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
+                    className="text-lg"
+                    style={{ color: "var(--teal)" }}
+                  >
+                    →
+                  </motion.div>
+                  <motion.div
+                    animate={{ x: [0, -6, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut", delay: 0.7 }}
+                    className="text-lg"
+                    style={{ color: "var(--wa-green)" }}
+                  >
+                    ←
+                  </motion.div>
+                </div>
+
+                <DashPanel phase={dashPhase} />
+              </div>
+
+              {/* Step indicators */}
+              <div className="flex gap-6 text-center mt-2">
+                {[
+                  { n: "1", label: "Patient asks on WhatsApp" },
+                  { n: "2", label: "Appears on dashboard" },
+                  { n: "3", label: "Doctor types reply" },
+                  { n: "4", label: "Patient gets it instantly" },
+                ].map((s) => (
+                  <div key={s.n} className="flex flex-col items-center gap-1">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                      style={{ background: "rgba(255,255,255,0.1)", color: "var(--teal-light)" }}
+                    >
+                      {s.n}
+                    </div>
+                    <p className="text-[10px] text-center" style={{ color: "var(--teal-light)", opacity: 0.7, maxWidth: 70 }}>
+                      {s.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
 

@@ -258,9 +258,77 @@ export default function Dashboard() {
           </p>
         </motion.div>
 
-        {/* Browser mockup */}
+        {/* ── MOBILE: stat card grid ── */}
         <motion.div
-          className="mx-auto overflow-hidden rounded-2xl"
+          className="lg:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Stat cards */}
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            {[
+              { icon: "📅", title: "Today's Appointments", val: "8",   sub: "3 done · 5 remaining",   accent: "var(--teal)" },
+              { icon: "#",  title: "Live Queue",            val: "M4",  sub: "8 tokens · 3 done",      accent: "var(--teal)" },
+              { icon: "👥", title: "Total Patients",        val: "187", sub: "15 follow-ups pending",  accent: "var(--coral)" },
+              { icon: "💊", title: "Pharmacy Alerts",       val: "3",   sub: "1 expired · 1 low stock",accent: "var(--amber)" },
+            ].map((s) => (
+              <div key={s.title} className="rounded-xl p-4" style={{ background: "white", border: "1px solid var(--border)", borderTop: `3px solid ${s.accent}` }}>
+                <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">{s.icon} {s.title}</p>
+                <p className="text-2xl font-bold" style={{ fontFamily: "'Bricolage Grotesque', sans-serif", color: "var(--navy)" }}>{s.val}</p>
+                <p className="text-[10px] text-gray-400 mt-0.5">{s.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Appointments list */}
+          <div className="rounded-xl overflow-hidden mb-4" style={{ background: "white", border: "1px solid var(--border)" }}>
+            <div className="px-4 py-3 flex items-center justify-between border-b" style={{ borderColor: "var(--border)" }}>
+              <p className="font-semibold text-sm" style={{ color: "var(--navy)" }}>Today's Appointments</p>
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold text-white" style={{ background: "var(--wa-green)" }}>● Live</span>
+            </div>
+            {APPTS.map((row) => (
+              <div key={row.token} className="px-4 py-3 flex items-center justify-between border-b last:border-0" style={{ borderColor: "var(--border)", background: row.status === "active" ? "rgba(29,158,117,0.04)" : "white" }}>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-bold w-8" style={{ color: row.status === "seen" ? "#9CA3AF" : row.status === "active" ? "var(--teal)" : "var(--navy)" }}>{row.token}</span>
+                  <div>
+                    <p className="text-sm font-medium" style={{ color: row.status === "seen" ? "#9CA3AF" : "var(--navy)" }}>{row.name}</p>
+                    <p className="text-[10px] text-gray-400">{row.time} · {row.type}</p>
+                  </div>
+                </div>
+                <StatusBadge status={row.status} />
+              </div>
+            ))}
+          </div>
+
+          {/* Needs attention */}
+          <div className="rounded-xl overflow-hidden" style={{ background: "white", border: "1px solid var(--border)" }}>
+            <div className="px-4 py-3 border-b flex items-center gap-2" style={{ borderColor: "var(--border)" }}>
+              <p className="font-semibold text-sm" style={{ color: "var(--navy)" }}>Needs Attention</p>
+              <span className="w-5 h-5 rounded-full text-[9px] flex items-center justify-center font-bold text-white" style={{ background: "var(--coral)" }}>18</span>
+            </div>
+            {NEEDS_ATTENTION.slice(0, 4).map((f) => (
+              <div key={f.name} className="px-4 py-3 border-b last:border-0 flex items-center justify-between" style={{ borderColor: "var(--border)" }}>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: f.kind === "reply" ? "var(--amber)" : "var(--coral)" }} />
+                  <div>
+                    <p className="text-sm font-medium" style={{ color: "var(--navy)" }}>{f.name}</p>
+                    <p className="text-[10px] text-gray-400">{f.sub}</p>
+                  </div>
+                </div>
+                <button className="px-2.5 py-1 rounded-lg text-xs font-semibold"
+                  style={{ background: f.kind === "reply" ? "rgba(29,158,117,0.1)" : "#FEF2F2", color: f.kind === "reply" ? "var(--teal)" : "var(--coral)" }}>
+                  {f.action}
+                </button>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ── DESKTOP: full browser mockup ── */}
+        <motion.div
+          className="hidden lg:block mx-auto overflow-hidden rounded-2xl"
           style={{ maxWidth: "95%", border: "1px solid var(--border)", boxShadow: "0 24px 64px rgba(0,0,0,0.13)" }}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
