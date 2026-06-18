@@ -8,7 +8,7 @@ export default function Footer() {
           {/* Col 1 */}
           <div>
             <div className="mb-4">
-              <Logo size="md" dark />
+              <Logo size="sm" dark />
             </div>
             <p className="text-sm mb-6 mt-2" style={{ color: "var(--teal-light)", opacity: 0.8 }}>
               Your clinic, on WhatsApp.

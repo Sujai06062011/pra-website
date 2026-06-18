@@ -37,7 +37,7 @@ const BOOKING: SeqStep[] = [
   { delay: 1800, msg: { id: 2,  type: "typing" } },
   // 2. Welcome list message
   { delay: 2800, msg: { id: 3,  type: "list-msg",
-      text: "Welcome to\nDr. Kumar Child Care Clinic",
+      text: "Welcome to\nDr. Kumar Family Clinic",
       subtext: "How can we help you today?\nReply BYE to end conversation",
       listBtn: "≡ View options",
       listBtnLabel: "View options",
@@ -104,7 +104,7 @@ const BOOKING: SeqStep[] = [
   { delay: 24800, msg: { id: 16, type: "patient",       text: "✅ Confirm",                                      time: "9:20 AM" } },
   // 15. Final confirmation (plain text)
   { delay: 25600, msg: { id: 17, type: "confirmation",
-      text: "Appointment Confirmed! ✅\n\nPatient: Rohan Patel\nPatient Code: ROH-4259-1984\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: Dr. Kumar Child Care Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
+      text: "Appointment Confirmed! ✅\n\nPatient: Rohan Patel\nPatient Code: ROH-4259-1984\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: Dr. Kumar Family Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
       time: "9:20 AM" } },
 ];
 
@@ -425,7 +425,7 @@ function WhatsAppPhone() {
             DK
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white text-xs font-semibold leading-none truncate">Dr. Kumar Child Care</p>
+            <p className="text-white text-xs font-semibold leading-none truncate">Dr. Kumar Family Clinic</p>
             <p className="text-green-200 text-[10px]">online</p>
           </div>
         </div>

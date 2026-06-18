@@ -31,7 +31,7 @@ const WA_STEPS: WaStep[] = [
     time: "8:55 AM" },
   // Doctor replies (comes after dashboard animation)
   { delay: 15500, id: 10, type: "doctor-reply",
-    text: "👨‍⚕️ Dr. Kumar Child Care Clinic\n\nPatient: SEL-9979-1965\n\nDr. Kumar has replied to your question:\n\nYour question: Can I drink fruit juice during this time?\nDr. Kumar's reply: Yes, please take without sugar and ice 🍹\n\nReply MENU for main menu.",
+    text: "👨‍⚕️ Dr. Kumar Family Clinic\n\nPatient: SEL-9979-1965\n\nDr. Kumar has replied to your question:\n\nYour question: Can I drink fruit juice during this time?\nDr. Kumar's reply: Yes, please take without sugar and ice 🍹\n\nReply MENU for main menu.",
     time: "8:56 AM" },
 ];
 
@@ -77,7 +77,7 @@ function WaPhone({ messages }: { messages: WaStep[] }) {
           DK
         </div>
         <div>
-          <p className="text-white text-[10px] font-semibold">Dr. Kumar Child Care</p>
+          <p className="text-white text-[10px] font-semibold">Dr. Kumar Family Clinic</p>
           <p className="text-green-200 text-[9px]">online</p>
         </div>
       </div>

@@ -30,7 +30,7 @@ function MiniPhone({ children }: { children: React.ReactNode }) {
           >
             DK
           </div>
-          <p className="text-white text-[10px] font-semibold">Dr. Kumar Child Care</p>
+          <p className="text-white text-[10px] font-semibold">Dr. Kumar Family Clinic</p>
         </div>
         <div
           className="px-2 py-2 min-h-[200px] flex flex-col gap-1.5"
@@ -90,7 +90,7 @@ const STEPS = [
     pills: ["Interactive buttons", "Tamil · English · Hindi", "Works on any phone"],
     phoneContent: (
       <WaBot
-        text={`Welcome to Dr. Kumar Child Care Clinic 👶\nHow can we help you today?`}
+        text={`Welcome to Dr. Kumar Family Clinic 🏥\nHow can we help you today?`}
         buttons={["📅 Book Appointment", "🔢 Queue Status", "❌ Cancel Appointment"]}
       />
     ),
@@ -127,7 +127,7 @@ const STEPS = [
           <p>👤 Meera Nair</p>
           <p>📅 17 June 2026 · 10:15 AM</p>
           <p>🎫 Token: <strong>M3</strong></p>
-          <p>🏥 Dr. Kumar Child Care Clinic</p>
+          <p>🏥 Dr. Kumar Family Clinic</p>
         </div>
       </div>
     ),

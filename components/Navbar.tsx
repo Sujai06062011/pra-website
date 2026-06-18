@@ -46,7 +46,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           {/* Logo */}
           <a href="/">
-            <Logo size="md" />
+            <Logo size="sm" noTag />
           </a>
 
           {/* Desktop nav */}
@@ -95,7 +95,7 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
           >
             <div className="flex items-center justify-between p-6">
-              <Logo size="sm" dark />
+              <Logo size="sm" dark noTag />
               <button onClick={() => setMobileOpen(false)} aria-label="Close menu">
                 <X size={24} className="text-white" />
               </button>

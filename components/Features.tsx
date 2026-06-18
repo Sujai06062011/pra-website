@@ -30,7 +30,7 @@ function QueueMockup() {
   return (
     <div className="rounded-2xl overflow-hidden" style={{ background: "white", border: "1px solid var(--border)" }}>
       <div className="px-4 py-3 flex items-center justify-between" style={{ background: "var(--navy)" }}>
-        <p className="text-white text-sm font-semibold">🏥 Dr. Kumar Child Care — Live Queue</p>
+        <p className="text-white text-sm font-semibold">🏥 Dr. Kumar Family Clinic — Live Queue</p>
         <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "var(--wa-green)", color: "white" }}>
           ● Live
         </span>

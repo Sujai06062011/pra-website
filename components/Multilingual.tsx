@@ -58,7 +58,7 @@ function LangPhone({ lang, flag, messages }: (typeof PHONES)[0]) {
           DK
         </div>
         <div>
-          <p className="text-white text-[9px] font-semibold">Dr. Kumar Child Care</p>
+          <p className="text-white text-[9px] font-semibold">Dr. Kumar Family Clinic</p>
           <p className="text-green-200 text-[8px]">{flag} {lang}</p>
         </div>
       </div>
