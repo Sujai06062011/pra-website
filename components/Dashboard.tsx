@@ -38,11 +38,18 @@ function DashboardUI() {
         className="w-44 flex-shrink-0 flex flex-col py-3 px-2.5 gap-0.5"
         style={{ background: "#0F0F1F", borderRight: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-2 mb-3 px-1">
-          <div className="w-6 h-6 rounded-lg flex items-center justify-center text-white font-bold text-xs" style={{ background: "var(--teal)" }}>P</div>
+        <div className="flex items-center gap-1.5 mb-3 px-1">
+          {/* CliniqCura icon mark */}
+          <svg width="24" height="16" viewBox="0 0 44 28" fill="none">
+            <path d="M18 2 C8 2 2 8 2 14 C2 20 8 26 18 26" stroke="#0CC9B5" strokeWidth="3.5" strokeLinecap="round"/>
+            <path d="M26 2 C36 2 42 8 42 14 C42 20 36 26 26 26" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round"/>
+            <circle cx="15" cy="14" r="2.4" fill="#0CC9B5"/>
+            <circle cx="22" cy="14" r="2.4" fill="#0CC9B5"/>
+            <circle cx="29" cy="14" r="2.4" fill="#22C55E"/>
+          </svg>
           <div>
-            <p className="text-white font-semibold text-[11px] leading-none">PRA</p>
-            <p className="text-gray-500 text-[9px]">Patient Relationship</p>
+            <p className="font-semibold text-[11px] leading-none"><span style={{ color: "white" }}>Cliniq</span><span style={{ color: "#22C55E" }}>Cura</span></p>
+            <p className="text-gray-500 text-[9px]">Care. Connected.</p>
           </div>
         </div>
         <div className="rounded-lg p-2 mb-2" style={{ background: "rgba(255,255,255,0.05)" }}>

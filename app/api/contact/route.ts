@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       : `🚀 Start Free Trial Request — ${name}`;
 
     const { error } = await resend.emails.send({
-      from: "PRA Website <onboarding@resend.dev>",
+      from: "CliniqCura <onboarding@resend.dev>",
       to: "sujai.tce@gmail.com",
       replyTo: email,
       subject,

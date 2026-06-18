@@ -1,6 +1,6 @@
 import { LegalPage, Section, BulletList, Highlight } from "../LegalPage";
 
-export const metadata = { title: "Privacy Policy — PRA" };
+export const metadata = { title: "Privacy Policy — CliniqCura" };
 
 export default function PrivacyPolicy() {
   return (
@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
     >
       <Section number="1" title="Who We Are">
         <p>
-          PRA (Patient Relationship Assistant) is a clinic management platform operated by PRA Health Tech Pvt. Ltd., registered in India. We provide WhatsApp-based appointment booking, queue management, and patient communication services to outpatient clinics across India.
+          CliniqCura is a clinic management platform operated by CliniqCura Health Tech Pvt. Ltd., registered in India. We provide WhatsApp-based appointment booking, queue management, and patient communication services to outpatient clinics across India.
         </p>
         <p>
           In the context of this policy, <strong>"Clinic"</strong> means the healthcare provider who subscribes to PRA, and <strong>"Patient"</strong> means any individual whose data is processed through our platform.
@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
       </Section>
 
       <Section number="8" title="Contact">
-        <p>Data Protection Officer: <strong>DPO, PRA Health Tech Pvt. Ltd.</strong></p>
+        <p>Data Protection Officer: <strong>DPO, CliniqCura Health Tech Pvt. Ltd.</strong></p>
         <p>Email: <strong>privacy@praclinic.in</strong></p>
         <p>Address: Chennai, Tamil Nadu, India</p>
       </Section>

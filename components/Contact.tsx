@@ -60,7 +60,7 @@ export default function Contact() {
               <span style={{ color: "var(--teal)" }}>on WhatsApp.</span>
             </h2>
             <p className="text-lg mb-8 leading-relaxed" style={{ color: "var(--slate)" }}>
-              Have questions about PRA? Want a personalised demo? Fill the form and we&apos;ll get back to you within 24 hours.
+              Have questions about CliniqCura? Want a personalised demo? Fill the form and we&apos;ll get back to you within 24 hours.
             </p>
 
             <div className="space-y-4">

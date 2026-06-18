@@ -1,6 +1,6 @@
 import { LegalPage, Section, BulletList, Highlight } from "../LegalPage";
 
-export const metadata = { title: "Cookie Policy — PRA" };
+export const metadata = { title: "Cookie Policy — CliniqCura" };
 
 export default function CookiePolicy() {
   return (

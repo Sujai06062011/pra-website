@@ -1,6 +1,6 @@
 import { LegalPage, Section, BulletList, WarningBox } from "../LegalPage";
 
-export const metadata = { title: "Terms of Service — PRA" };
+export const metadata = { title: "Terms of Service — CliniqCura" };
 
 export default function Terms() {
   return (
@@ -11,10 +11,10 @@ export default function Terms() {
     >
       <Section number="1" title="Acceptance of Terms">
         <p>
-          By accessing or using PRA (Patient Relationship Assistant), you agree to be bound by these Terms of Service and all applicable laws. If you do not agree, do not use the platform.
+          By accessing or using CliniqCura, you agree to be bound by these Terms of Service and all applicable laws. If you do not agree, do not use the platform.
         </p>
         <p>
-          These terms constitute a binding legal agreement between you (the clinic, doctor, or staff member) and PRA Health Tech Pvt. Ltd.
+          These terms constitute a binding legal agreement between you (the clinic, doctor, or staff member) and CliniqCura Health Tech Pvt. Ltd.
         </p>
       </Section>
 

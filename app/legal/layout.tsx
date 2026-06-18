@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import Logo from "../../components/Logo";
 
 export default function LegalLayout({ children }: { children: ReactNode }) {
   return (
@@ -10,17 +11,8 @@ export default function LegalLayout({ children }: { children: ReactNode }) {
         style={{ background: "white", borderColor: "#E2E8F0" }}
       >
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-              style={{ background: "#0D9488" }}
-            >
-              P
-            </div>
-            <div>
-              <p className="font-bold text-sm leading-none" style={{ color: "#0F172A", fontFamily: "'Bricolage Grotesque', sans-serif" }}>PRA</p>
-              <p className="text-[10px]" style={{ color: "#64748B" }}>Patient Relationship Assistant</p>
-            </div>
+          <Link href="/">
+            <Logo size="sm" />
           </Link>
           <div className="flex items-center gap-4 text-sm">
             {[
@@ -54,7 +46,7 @@ export default function LegalLayout({ children }: { children: ReactNode }) {
       </main>
 
       <footer className="border-t mt-16 py-8 text-center text-sm" style={{ borderColor: "#E2E8F0", color: "#94A3B8" }}>
-        © {new Date().getFullYear()} PRA — Patient Relationship Assistant. All rights reserved.
+        © {new Date().getFullYear()} CliniqCura. All rights reserved.
       </footer>
     </div>
   );

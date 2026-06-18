@@ -1,3 +1,5 @@
+import Logo from "./Logo";
+
 export default function Footer() {
   return (
     <footer style={{ background: "#060E1A" }} className="pt-16 pb-8">
@@ -5,21 +7,10 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10 mb-12">
           {/* Col 1 */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold"
-                style={{ background: "var(--teal)", fontFamily: "'Bricolage Grotesque', sans-serif" }}
-              >
-                P
-              </div>
-              <span
-                className="text-white font-bold text-lg"
-                style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
-              >
-                PRA
-              </span>
+            <div className="mb-4">
+              <Logo size="md" dark />
             </div>
-            <p className="text-sm mb-6" style={{ color: "var(--teal-light)", opacity: 0.8 }}>
+            <p className="text-sm mb-6 mt-2" style={{ color: "var(--teal-light)", opacity: 0.8 }}>
               Your clinic, on WhatsApp.
             </p>
             <a
@@ -88,7 +79,7 @@ export default function Footer() {
           style={{ borderColor: "rgba(255,255,255,0.1)" }}
         >
           <p className="text-sm" style={{ color: "var(--teal-light)", opacity: 0.6 }}>
-            © 2026 PRA — Patient Relationship Assistant. Made with ❤️ for Indian clinics.
+            © 2026 CliniqCura. Made with ❤️ for Indian clinics.
           </p>
           <div className="flex gap-4">
             {["LinkedIn", "Twitter", "Instagram"].map((s) => (

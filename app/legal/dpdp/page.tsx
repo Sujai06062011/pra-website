@@ -1,6 +1,6 @@
 import { LegalPage, Section, BulletList, Highlight, WarningBox } from "../LegalPage";
 
-export const metadata = { title: "DPDP Compliance Policy — PRA" };
+export const metadata = { title: "DPDP Compliance Policy — CliniqCura" };
 
 export default function DPDPPolicy() {
   return (
@@ -123,7 +123,7 @@ export default function DPDPPolicy() {
       </Section>
 
       <Section number="8" title="Contact the Data Protection Officer">
-        <p><strong>DPO:</strong> Data Protection Officer, PRA Health Tech Pvt. Ltd.</p>
+        <p><strong>DPO:</strong> Data Protection Officer, CliniqCura Health Tech Pvt. Ltd.</p>
         <p><strong>Email:</strong> dpo@praclinic.in</p>
         <p><strong>Address:</strong> Chennai, Tamil Nadu, India — 600 001</p>
         <p><strong>Response SLA:</strong> 48 hours acknowledgement · 30 days resolution</p>

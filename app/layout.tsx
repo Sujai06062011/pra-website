@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PRA — Patient Relationship Assistant",
+  title: "CliniqCura",
   description:
     "WhatsApp-first clinic management for Indian outpatient clinics. Patients book, check queue, and get reminders — all on WhatsApp. No app download needed.",
   keywords:
     "clinic management software india, whatsapp appointment booking, doctor software tamil, clinic queue management",
   openGraph: {
-    title: "PRA — Your clinic, on WhatsApp",
+    title: "CliniqCura — Your clinic, on WhatsApp",
     description: "Patients book on WhatsApp. You manage from dashboard.",
     url: "https://praclinic.in",
   },
