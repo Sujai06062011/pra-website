@@ -528,7 +528,7 @@ export default function Hero() {
 
             <div className="flex gap-8 mb-8">
               {[
-                { value: "2 min",  label: "average booking time" },
+                { value: "30 sec",  label: "average booking time" },
                 { value: "0 apps", label: "patients need to download" },
                 { value: "24/7",   label: "automated followups" },
               ].map((s) => (
