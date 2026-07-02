@@ -79,7 +79,7 @@ export default function Footer() {
           style={{ borderColor: "rgba(255,255,255,0.1)" }}
         >
           <p className="text-sm" style={{ color: "var(--teal-light)", opacity: 0.6 }}>
-            © 2026 CliniqCura. Made with ❤️ for Indian clinics.
+            © 2026 Parro Connect. Made with ❤️ for Indian clinics.
           </p>
           <div className="flex gap-4">
             {["LinkedIn", "Twitter", "Instagram"].map((s) => (

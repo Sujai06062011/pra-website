@@ -124,17 +124,13 @@ function Wordmark({
       {/* Wordmark */}
       <div style={{
         fontSize: mainPx,
-        fontWeight: 600,
+        fontWeight: 700,
         lineHeight: 1,
         letterSpacing: "0.01em",
         whiteSpace: "nowrap",
       }}>
-        <span style={{ color: textColor }}>Cl</span>
-        <GreenI />
-        <span style={{ color: textColor }}>n</span>
-        <GreenI />
-        <span style={{ color: textColor }}>q</span>
-        <span style={{ color: curaColor }}>Cura</span>
+        <span style={{ color: textColor }}>Parro </span>
+        <span style={{ color: (mono || dark) ? textColor : B.teal }}>Connect</span>
       </div>
 
       {/* Tagline */}
@@ -142,22 +138,19 @@ function Wordmark({
         <div style={{
           fontSize: tagPx,
           fontWeight: 500,
-          letterSpacing: "0.08em",
-          marginTop: Math.round(mainPx * 0.3),
+          letterSpacing: "0.06em",
+          marginTop: Math.round(mainPx * 0.25),
           whiteSpace: "nowrap",
         }}>
           {(mono || dark) ? (
-            <span style={{ color: textColor }}>Care. Connected.</span>
+            <span style={{ color: textColor }}>Engage · Retain · Grow</span>
           ) : (
             <>
-              <span style={{ color: B.teal }}>Care.</span>
-              {" "}
-              <span style={{
-                background: `linear-gradient(90deg, ${B.blue}, ${B.purple})`,
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
-              }}>Connected.</span>
+              <span style={{ color: B.teal }}>Engage</span>
+              <span style={{ color: B.navy, opacity: 0.4 }}> · </span>
+              <span style={{ color: B.blue }}>Retain</span>
+              <span style={{ color: B.navy, opacity: 0.4 }}> · </span>
+              <span style={{ color: B.purple }}>Grow</span>
             </>
           )}
         </div>
