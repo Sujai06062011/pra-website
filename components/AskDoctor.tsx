@@ -31,7 +31,7 @@ const WA_STEPS: WaStep[] = [
     time: "8:55 AM" },
   // Doctor replies (comes after dashboard animation)
   { delay: 15500, id: 10, type: "doctor-reply",
-    text: "👨‍⚕️ Dr. Kumar Family Clinic\n\nPatient: SEL-9979-1965\n\nDr. Kumar has replied to your question:\n\nYour question: Can I drink fruit juice during this time?\nDr. Kumar's reply: Yes, please take without sugar and ice 🍹\n\nReply MENU for main menu.",
+    text: "👨‍⚕️ TrueCare Family Clinic\n\nPatient: SEL-9979-1965\n\nDr. Kumar has replied to your question:\n\nYour question: Can I drink fruit juice during this time?\nDr. Kumar's reply: Yes, please take without sugar and ice 🍹\n\nReply MENU for main menu.",
     time: "8:56 AM" },
 ];
 
@@ -74,10 +74,10 @@ function WaPhone({ messages }: { messages: WaStep[] }) {
       </div>
       <div className="px-2 py-1.5 flex items-center gap-1.5" style={{ background: "#128C7E" }}>
         <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0" style={{ background: "#25D366" }}>
-          DK
+          TC
         </div>
         <div>
-          <p className="text-white text-[10px] font-semibold">Dr. Kumar Family Clinic</p>
+          <p className="text-white text-[10px] font-semibold">TrueCare Family Clinic</p>
           <p className="text-green-200 text-[9px]">online</p>
         </div>
       </div>

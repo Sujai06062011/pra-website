@@ -4,6 +4,7 @@ import SocialProof from "../components/SocialProof";
 import HowItWorks from "../components/HowItWorks";
 import Features from "../components/Features";
 import AskDoctor from "../components/AskDoctor";
+import DoctorAgent from "../components/DoctorAgent";
 import Dashboard from "../components/Dashboard";
 import Multilingual from "../components/Multilingual";
 import LiveDemo from "../components/LiveDemo";
@@ -22,6 +23,7 @@ export default function Home() {
         <HowItWorks />
         <Features />
         <AskDoctor />
+        <DoctorAgent />
         <Dashboard />
         <Multilingual />
         <LiveDemo />

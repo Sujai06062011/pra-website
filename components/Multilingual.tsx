@@ -55,10 +55,10 @@ function LangPhone({ lang, flag, messages }: (typeof PHONES)[0]) {
           className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold"
           style={{ background: "#25D366" }}
         >
-          DK
+          TC
         </div>
         <div>
-          <p className="text-white text-[9px] font-semibold">Dr. Kumar Family Clinic</p>
+          <p className="text-white text-[9px] font-semibold">TrueCare Family Clinic</p>
           <p className="text-green-200 text-[8px]">{flag} {lang}</p>
         </div>
       </div>

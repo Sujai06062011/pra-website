@@ -28,9 +28,9 @@ function MiniPhone({ children }: { children: React.ReactNode }) {
             className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold"
             style={{ background: "#25D366" }}
           >
-            DK
+            TC
           </div>
-          <p className="text-white text-[10px] font-semibold">Dr. Kumar Family Clinic</p>
+          <p className="text-white text-[10px] font-semibold">TrueCare Family Clinic</p>
         </div>
         <div
           className="px-2 py-2 min-h-[200px] flex flex-col gap-1.5"
@@ -90,7 +90,7 @@ const STEPS = [
     pills: ["Interactive buttons", "Tamil · English · Hindi", "Works on any phone"],
     phoneContent: (
       <WaBot
-        text={`Welcome to Dr. Kumar Family Clinic 🏥\nHow can we help you today?`}
+        text={`Welcome to TrueCare Family Clinic 🏥\nHow can we help you today?`}
         buttons={["📅 Book Appointment", "🔢 Queue Status", "❌ Cancel Appointment"]}
       />
     ),
@@ -127,7 +127,7 @@ const STEPS = [
           <p>👤 Meera Nair</p>
           <p>📅 17 June 2026 · 10:15 AM</p>
           <p>🎫 Token: <strong>M3</strong></p>
-          <p>🏥 Dr. Kumar Family Clinic</p>
+          <p>🏥 TrueCare Family Clinic</p>
         </div>
       </div>
     ),

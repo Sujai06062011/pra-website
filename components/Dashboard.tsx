@@ -49,7 +49,7 @@ function DashboardUI() {
           </div>
         </div>
         <div className="rounded-lg p-2 mb-2" style={{ background: "rgba(255,255,255,0.05)" }}>
-          <p className="text-white font-medium text-[10px]">Dr. Kumar Family Clinic</p>
+          <p className="text-white font-medium text-[10px]">TrueCare Family Clinic</p>
           <p className="text-gray-400 text-[9px]">Dr. Rajkumar · Paediatrics</p>
         </div>
         <button className="w-full py-1.5 rounded-lg text-[10px] font-semibold text-white mb-1" style={{ background: "var(--wa-green)" }}>+ New Appointment</button>

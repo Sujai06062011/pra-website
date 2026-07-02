@@ -37,7 +37,7 @@ const BOOKING: SeqStep[] = [
   { delay: 1800, msg: { id: 2,  type: "typing" } },
   // 2. Welcome list message
   { delay: 2800, msg: { id: 3,  type: "list-msg",
-      text: "Welcome to\nDr. Kumar Family Clinic",
+      text: "Welcome to\nTrueCare Family Clinic",
       subtext: "How can we help you today?\nReply BYE to end conversation",
       listBtn: "≡ View options",
       listBtnLabel: "View options",
@@ -104,7 +104,7 @@ const BOOKING: SeqStep[] = [
   { delay: 24800, msg: { id: 16, type: "patient",       text: "✅ Confirm",                                      time: "9:20 AM" } },
   // 15. Final confirmation (plain text)
   { delay: 25600, msg: { id: 17, type: "confirmation",
-      text: "Appointment Confirmed! ✅\n\nPatient: Rohan Patel\nPatient Code: ROH-4259-1984\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: Dr. Kumar Family Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
+      text: "Appointment Confirmed! ✅\n\nPatient: Rohan Patel\nPatient Code: ROH-4259-1984\nDate: 18 June 2026\nTime: 6:00 PM\nToken: E4\nClinic: TrueCare Family Clinic\n\nPlease mention your token when you arrive.\nReply CANCEL to cancel. See you soon!\n\nReply MENU for main menu.",
       time: "9:20 AM" } },
 ];
 
@@ -422,10 +422,10 @@ function WhatsAppPhone() {
         {/* WA Header */}
         <div className="px-3 py-2 flex items-center gap-2" style={{ background: "#128C7E" }}>
           <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style={{ background: "#25D366" }}>
-            DK
+            TC
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white text-xs font-semibold leading-none truncate">Dr. Kumar Family Clinic</p>
+            <p className="text-white text-xs font-semibold leading-none truncate">TrueCare Family Clinic</p>
             <p className="text-green-200 text-[10px]">online</p>
           </div>
         </div>
